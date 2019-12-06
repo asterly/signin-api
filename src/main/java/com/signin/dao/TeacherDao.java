@@ -1,7 +1,11 @@
 package com.signin.dao;
 
+import com.signin.model.Teacher;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @Auther: engow
@@ -11,4 +15,6 @@ import org.springframework.stereotype.Component;
 @Component("teacherDao")
 @Mapper
 public interface TeacherDao {
+    @Select("SELECT * FROM teacher ORDER BY name")
+    List<Teacher> list();
 }
