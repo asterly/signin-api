@@ -1,5 +1,6 @@
 package com.signin.service;
 
+import com.signin.model.Class;
 import com.signin.model.Teacher;
 
 import java.util.List;
@@ -11,4 +12,8 @@ import java.util.List;
  */
 public interface TeacherService {
     List<Teacher> list();
+
+    Long addClass(String className, Long teacherId);
+
+    List<Class> listClasses(Teacher teacher);
 }
