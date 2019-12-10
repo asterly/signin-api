@@ -7,6 +7,7 @@ import com.signin.service.TeacherService;
 import org.springframework.stereotype.Service;
 import com.signin.model.Class;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: engow
@@ -30,13 +31,20 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Long addClass(String className, Long teacherId) {
-        return null;
+    public Class addClass(Map<String, String> req) {
+        Long parent = req.get("parent") != null ? Long.parseLong(req.get("parent")) : 0;
+        Class c = new Class(req.get("name"), parent, Long.parseLong(req.get("teacherId")));
+        return classDao.insert(c) > 0 ? c : null;
     }
 
     @Override
     public List<Class> listClasses(Teacher teacher) {
         return classDao.list(teacher);
+    }
+
+    @Override
+    public Boolean deleteClass(Long classId) {
+        return classDao.delete(classId);
     }
 
 }

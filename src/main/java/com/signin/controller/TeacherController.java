@@ -7,6 +7,8 @@ import com.signin.service.TeacherService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 /**
  * @Auther: engow
  * @Date: 2019/12/6 10:24
@@ -35,11 +37,21 @@ public class TeacherController {
         return ResultData.success(teacherService.listClasses(teacher));
     }
 
-    @PostMapping("/classes")
+    @PostMapping("/class")
     @ResponseBody
-    public String addClass(String name, Long teacherId) {
+    public String addClass(@RequestBody Map<String, String> req) {
         try {
-            return ResultData.success(teacherService.addClass(name, teacherId));
+            return ResultData.success(teacherService.addClass(req));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
+    @DeleteMapping("/class")
+    public String deleteClass(@RequestBody Map<String, String> req) {
+        try {
+            return ResultData.success(teacherService.deleteClass(Long.parseLong(req.get("id"))));
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.serverError();

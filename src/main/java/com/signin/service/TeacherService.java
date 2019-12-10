@@ -4,6 +4,7 @@ import com.signin.model.Class;
 import com.signin.model.Teacher;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther: engow
@@ -13,7 +14,9 @@ import java.util.List;
 public interface TeacherService {
     List<Teacher> list();
 
-    Long addClass(String className, Long teacherId);
+    Class addClass(Map<String, String> req);
 
     List<Class> listClasses(Teacher teacher);
+
+    Boolean deleteClass(Long classId);
 }

@@ -1,14 +1,11 @@
 package com.signin.controller;
 
 import com.signin.common.ResultData;
-import com.signin.model.Student;
 import com.signin.repository.StudentRepository;
 import com.signin.service.StudentService;
+import com.signin.utils.WeChatUtils;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Auther: engow
@@ -20,23 +17,27 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
     private final StudentRepository studentRepository;
+    private final WeChatUtils weChatUtils;
 
-    public StudentController(StudentService studentService, StudentRepository studentRepository) {
+    public StudentController(StudentService studentService, StudentRepository studentRepository, WeChatUtils weChatUtils) {
         this.studentService = studentService;
         this.studentRepository = studentRepository;
+        this.weChatUtils = weChatUtils;
     }
 
     @GetMapping("/students")
     @ResponseBody
     String list() {
-        Student student = new Student();
-        List<Integer> records =  new ArrayList<>();
-        records.add(0);
-        records.add(1);
-        student.setId(System.currentTimeMillis());
-        student.setRecords(records);
-        student.setName("hello");
-        studentRepository.save(student);
-        return ResultData.success("hello");
+        return ResultData.success(weChatUtils.getAccessToken());
+//        Student student = new Student();
+//        List<Integer> records =  new ArrayList<>();
+//        records.add(0);
+//        records.add(1);
+//        student.setId(System.currentTimeMillis());
+//        student.setRecords(records);
+//        student.setName("hello");
+//        studentRepository.save(student);
+//        return ResultData.success("hello");
+
     }
 }

@@ -15,6 +15,16 @@ public class Class {
     private Integer invalid;
     private Timestamp createTime;
 
+    public Class() {
+    }
+
+    public Class(String name, Long parent, Long teacherId) {
+        this.name = name;
+        this.parent = parent;
+        this.teacherId = teacherId;
+        this.createTime = new Timestamp(System.currentTimeMillis());
+    }
+
     public Long getId() {
         return id;
     }
@@ -53,17 +63,6 @@ public class Class {
 
     public void setInvalid(Integer invalid) {
         this.invalid = invalid;
-    }
-
-    @Override
-    public String toString() {
-        return "Class{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", parent=" + parent +
-                ", teacherId=" + teacherId +
-                ", invalid=" + invalid +
-                '}';
     }
 
     public Timestamp getCreateTime() {
