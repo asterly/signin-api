@@ -34,24 +34,24 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Teacher> list() {
+    public List<Teacher> list() {//查询所有老师
         return teacherDao.list();
     }
 
     @Override
-    public Class addClass(Map<String, String> req) {
+    public Class addClass(Map<String, String> req) {//新增班级
         Long parent = req.get("parent") != null ? Long.parseLong(req.get("parent")) : 0;
         Class c = new Class(req.get("name"), parent, Long.parseLong(req.get("teacherId")));
         return classDao.insert(c) > 0 ? c : null;
     }
 
     @Override
-    public List<Class> listClasses(Teacher teacher) {
+    public List<Class> listClasses(Teacher teacher) {//根据老师查询其名下的所有班级
         return classDao.list(teacher);
     }
 
     @Override
-    public Boolean deleteClass(Long classId) {
+    public Boolean deleteClass(Long classId) {//删除班级
         return classDao.delete(classId);
     }
 

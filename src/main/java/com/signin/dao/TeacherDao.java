@@ -16,5 +16,5 @@ import java.util.List;
 @Mapper
 public interface TeacherDao {
     @Select("SELECT * FROM teacher ORDER BY name")
-    List<Teacher> list();
+    List<Teacher> list();//获取所有老师
 }
