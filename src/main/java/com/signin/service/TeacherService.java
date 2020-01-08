@@ -19,4 +19,5 @@ public interface TeacherService {
     List<Class> listClasses(Teacher teacher);
 
     Boolean deleteClass(Long classId);
+    public String openSign(Map<String, String> req);
 }

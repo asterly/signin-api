@@ -5,7 +5,10 @@ import com.signin.repository.StudentRepository;
 import com.signin.service.StudentService;
 import com.signin.utils.WeChatUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @Auther: engow
@@ -40,4 +43,14 @@ public class StudentController {
 //        return ResultData.success("hello");
 
     }
+
+
+    @ApiModelProperty(value = "/test")
+    @PostMapping("/signin")
+    public String signin(@RequestBody Map<String, String> req){
+        return ResultData.success(studentService.signIN(req));
+    }
+
+
+
 }

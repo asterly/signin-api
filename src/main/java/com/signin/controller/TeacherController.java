@@ -57,4 +57,15 @@ public class TeacherController {
             return ResultData.serverError();
         }
     }
+
+    /**
+     * 教师端创建一个签到任务，返回6位数的签到码
+     * @param req 前台页面传入的参数
+     *            主要有 teacherID， classID 均为数值类型
+     * @return
+     */
+    @PostMapping("/openSign")
+    public String openSignTask(@RequestBody Map<String, String> req){
+        return ResultData.success(teacherService.openSign(req));
+    }
 }
