@@ -57,7 +57,7 @@ public class StudentServiceImpl implements StudentService {
             signRecord.setUserId(Long.parseLong(userID));
 
             //判断是否已经签到
-            List signList = signRecordDao.selRecord(signRecord);
+            List signList = signRecordDao.selRecordByAttendenceID(signRecord);
             if(signList.size()>0){
                 return "您已经签到过了";
             }

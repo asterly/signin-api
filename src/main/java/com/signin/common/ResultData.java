@@ -1,6 +1,7 @@
 package com.signin.common;
 
-import com.google.gson.Gson;
+
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.Map;
 
@@ -67,27 +68,27 @@ public class ResultData {
     }
 
     public static String success(Object data) {
-        return new Gson().toJson(new ResultData(
+        return JSONObject.toJSONString(new ResultData(
                 ResultStatus.SUCCESS.getCode(),
                 ResultStatus.SUCCESS.getMessage(),
                 data));
     }
 
     public static String error() {
-        return new Gson().toJson(new ResultData(
+        return JSONObject.toJSONString(new ResultData(
                 ResultStatus.ERROR.getCode(),
                 ResultStatus.ERROR.getMessage()
         ));
     }
 
     public static String serverError() {
-        return new Gson().toJson(new ResultData(
+        return JSONObject.toJSONString(new ResultData(
                 ResultStatus.SERVER_ERROR.getCode(),
                 ResultStatus.SERVER_ERROR.getMessage()));
     }
 
     public static String none() {
-        return new Gson().toJson(new ResultData(
+        return JSONObject.toJSONString(new ResultData(
                 ResultStatus.NONE.getCode(),
                 ResultStatus.NONE.getMessage()));
     }

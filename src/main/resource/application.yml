@@ -23,7 +23,7 @@ spring:
       uri: mongodb://engow:rz19940314cr@itrip.wuhansoftware.com:27017/signin
 logging:
   pattern:
-    console: %d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n
+    console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

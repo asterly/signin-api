@@ -21,7 +21,7 @@ public interface SignRecordDao {
     Long insert(SignRecord c);
 
     @Select("SELECT id,attendence_id,user_id,sign_time FROM `sign_record` WHERE attendence_id=#{attendenceId} AND user_id=#{userId} ORDER BY id DESC")
-    List<Map> selRecord(SignRecord signRecord);
+    List<Map> selRecordByAttendenceID(SignRecord signRecord);
 
     @Select("")
     List<Map> selRecord(Map signRecord);
