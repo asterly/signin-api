@@ -55,8 +55,8 @@ public class LoginFilter implements Filter {
 
             }else{
                 //生产环境使用
-                User user = new UserInfoUtil().ParseUser();
-                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
+//                User user = new UserInfoUtil().ParseUser();
+//                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
 //                String url = "";
 //                res.sendRedirect(url);
             }

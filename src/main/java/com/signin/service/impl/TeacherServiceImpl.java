@@ -5,6 +5,7 @@ import com.signin.dao.ClassDao;
 import com.signin.dao.SignRecordDao;
 import com.signin.dao.TeacherDao;
 import com.signin.model.Attendence;
+import com.signin.model.SignRecord;
 import com.signin.model.Teacher;
 import com.signin.service.TeacherService;
 import com.signin.utils.RandomSignCode;
@@ -67,40 +68,42 @@ public class TeacherServiceImpl implements TeacherService {
     public String openSign(Map<String, String> req) {
         //1、随机生成6位数字的签到码
         String signCode = RandomSignCode.signCode();
-        String teacherID = req.get("teacherID");
-        String classID = req.get("classID");
+        String teacherId = req.get("teacherId");
+        String classId = req.get("classId");
 
         Attendence attendence=new Attendence();
-        attendence.setClassId(Long.parseLong(classID));
+        attendence.setClassId(Long.parseLong(classId));
         //获取当前的时间搓
         long time = new Date().getTime();
         attendence.setStartTime(new Timestamp(time));
         //默认签到时间为1分钟内
         attendence.setEndTime(new Timestamp(time+60000L));
-        attendence.setName(teacherID+"_"+classID);
-        attendence.setUserId(Long.parseLong(teacherID));
+        attendence.setName(teacherId+"_"+classId);
+        attendence.setUserId(Long.parseLong(teacherId));
         //写入签到码
         attendence.setSignCode(Long.parseLong(signCode));
         Long insert = attendenceDao.insert(attendence);
 
         //2、将签到码存入内存和数据库中
-        RandomSignCode.setCode(teacherID+"_"+classID,attendence);
+        RandomSignCode.setCode(teacherId+"_"+classId,attendence);
 
         //3、创建定时器，在指定时间后移除内存中的数据
-        RemoveTimerTask.removeCode(teacherID+"_"+classID,time+60000L);
+        RemoveTimerTask.removeCode(teacherId+"_"+classId,time+60000L);
         //3、回写签到码
         return signCode;
     }
 
-    /**
-     * 教师端查询学生的签到信息，不传任何参数表示查询当前老师所有班级的所有签到纪律
-     * 教师ID默认传递。
-     * @param req
-     * @return
-     */
-    public List<Map> selsigninRecord(Map<String, String> req){
-        return signRecordDao.selRecord(req);
+
+    @Override
+    public List<Attendence> selAttendenceByClass(Map<String, String> req) {
+        int teacherId = Integer.parseInt(req.get("teacherId"));
+        int classId = Integer.parseInt(req.get("classId"));
+        return attendenceDao.selAttendenceByClass(teacherId,classId);
     }
 
-
+    @Override
+    public List<SignRecord> selSignRecordByAttendence(Map<String, String> req) {
+        int attendenceId = Integer.parseInt(req.get("attendenceId"));
+        return signRecordDao.selAllRecordByAttendenceId(attendenceId);
+    }
 }
