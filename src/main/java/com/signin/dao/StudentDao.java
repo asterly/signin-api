@@ -1,6 +1,9 @@
 package com.signin.dao;
 
+import com.signin.model.Student;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,4 +14,7 @@ import org.springframework.stereotype.Component;
 @Component("studentDao")
 @Mapper
 public interface StudentDao {
+    @Insert("INSERT INTO `sign_record` ( `user_id`, `attendence_id`) VALUES(#{userId}, #{attendenceId})")
+    @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
+    Long insert(Student c);
 }

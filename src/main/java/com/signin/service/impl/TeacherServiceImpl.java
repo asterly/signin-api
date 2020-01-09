@@ -2,11 +2,14 @@ package com.signin.service.impl;
 
 import com.signin.dao.AttendenceDao;
 import com.signin.dao.ClassDao;
+import com.signin.dao.SignRecordDao;
 import com.signin.dao.TeacherDao;
 import com.signin.model.Attendence;
 import com.signin.model.Teacher;
 import com.signin.service.TeacherService;
 import com.signin.utils.RandomSignCode;
+import com.signin.utils.RemoveTimerTask;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.signin.model.Class;
 
@@ -27,10 +30,15 @@ public class TeacherServiceImpl implements TeacherService {
     private final ClassDao classDao;
     private final AttendenceDao attendenceDao;
 
-    public TeacherServiceImpl(TeacherDao teacherDao, ClassDao classDao,AttendenceDao attendenceDao) {
+    private final SignRecordDao signRecordDao;
+
+    public TeacherServiceImpl(TeacherDao teacherDao, ClassDao classDao,
+                              AttendenceDao attendenceDao,SignRecordDao signRecordDao) {
         this.teacherDao = teacherDao;
         this.classDao = classDao;
         this.attendenceDao=attendenceDao;
+        this.signRecordDao=signRecordDao;
+
     }
 
     @Override
@@ -77,8 +85,22 @@ public class TeacherServiceImpl implements TeacherService {
 
         //2、将签到码存入内存和数据库中
         RandomSignCode.setCode(teacherID+"_"+classID,attendence);
+
+        //3、创建定时器，在指定时间后移除内存中的数据
+        RemoveTimerTask.removeCode(teacherID+"_"+classID,time+60000L);
         //3、回写签到码
         return signCode;
     }
+
+    /**
+     * 教师端查询学生的签到信息，不传任何参数表示查询当前老师所有班级的所有签到纪律
+     * 教师ID默认传递。
+     * @param req
+     * @return
+     */
+    public List<Map> selsigninRecord(Map<String, String> req){
+        return signRecordDao.selRecord(req);
+    }
+
 
 }

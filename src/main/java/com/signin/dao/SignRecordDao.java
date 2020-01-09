@@ -22,4 +22,7 @@ public interface SignRecordDao {
 
     @Select("SELECT id,attendence_id,user_id,sign_time FROM `sign_record` WHERE attendence_id=#{attendenceId} AND user_id=#{userId} ORDER BY id DESC")
     List<Map> selRecord(SignRecord signRecord);
+
+    @Select("")
+    List<Map> selRecord(Map signRecord);
 }

@@ -6,6 +6,7 @@ import com.signin.model.Class;
 import com.signin.model.SignRecord;
 import com.signin.service.StudentService;
 import com.signin.utils.RandomSignCode;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,19 @@ public class StudentServiceImpl implements StudentService {
         String signCode = req.get("signCode");
         String userID = req.get("userID");
         //读取内存中的签到签到目标对象
-        Attendence attendence =(Attendence) RandomSignCode.getCode(teacherID + "_" + classID);
+        Attendence attendence=null;
+        try {
+            attendence =(Attendence) RandomSignCode.getCode(teacherID + "_" + classID);
+
+        }catch (Exception e){
+            return "签到失败，签到结束";
+
+        }
+
+        if(attendence==null){
+            return "签到失败，签到结束";
+        }
+
         if(signCode.equalsIgnoreCase(attendence.getSignCode().toString())){
             SignRecord signRecord = new SignRecord();
             signRecord.setAttendenceId(attendence.getId());
@@ -48,7 +61,6 @@ public class StudentServiceImpl implements StudentService {
             if(signList.size()>0){
                 return "您已经签到过了";
             }
-
             //入库到签到清单表
             Long insertCode = signRecordDao.insert(signRecord);
             if(insertCode>0){
@@ -58,4 +70,6 @@ public class StudentServiceImpl implements StudentService {
         }
         return "签到失败！签到码错误";
     }
+
+
 }

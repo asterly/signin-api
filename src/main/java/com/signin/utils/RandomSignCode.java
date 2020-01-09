@@ -1,12 +1,11 @@
 package com.signin.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class RandomSignCode {
 
     public static Map codeMap=new HashMap();
+    public static List<String> removeCodeList=new ArrayList<>();
 
     public static Object getCode(String codeKey) {
         return RandomSignCode.codeMap.get(codeKey);
@@ -17,6 +16,14 @@ public class RandomSignCode {
     }
     public static void setCode(String codeKey,Object code) {
         RandomSignCode.codeMap.put(codeKey,code);
+    }
+
+//    public static String getRemoveCodeList() {
+//        return removeCodeList;
+//    }
+
+    public static void setRemoveCodeList(List<String> removeCodeList) {
+        RandomSignCode.removeCodeList = removeCodeList;
     }
 
     public static String signCode(){
