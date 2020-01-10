@@ -9,7 +9,7 @@ import java.util.Map;
 @Component("studentClassDao")
 @Mapper
 public interface StudentClassDao {
-    @Insert("INSERT INTO `student_class` (`student_id`, `class_id`) VALUES (#{userid}, #{classid})")
+    @Insert("INSERT INTO `student_class` (`studentId`, `classId`) VALUES (#{userid}, #{classid})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(Map c);//学生导入班级
 
@@ -18,8 +18,8 @@ public interface StudentClassDao {
      * @param classid
      * @return
      */
-    @Select("select a.student_id,c.`name` student_name,a.class_id,b.`name` class_name,teacher_id\n" +
+    @Select("select a.studentId,c.`name` studentName,a.classId,b.`name` className,teacherId\n" +
             "from student_class a,class b,student c \n" +
-            "where a.class_id=b.id and a.student_id=c.id and a.state=1 and a.class_id=#{classid}\n")
+            "where a.classId=b.id and a.studentId=c.id and a.state=1 and a.classId=#{classid}\n")
     List<Map> selStudentClass(@Param("classid") int classid);
 }

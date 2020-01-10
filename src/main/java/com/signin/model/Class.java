@@ -14,6 +14,7 @@ public class Class {
     private Long teacherId;
     private Integer invalid;
     private Timestamp createTime;
+    private Long joinCode;
 
     public Class() {
     }
@@ -72,4 +73,13 @@ public class Class {
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
     }
+
+    public Long getJoinCode() {
+        return joinCode;
+    }
+
+    public void setJoinCode(Long joinCode) {
+        this.joinCode = joinCode;
+    }
+
 }

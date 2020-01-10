@@ -15,11 +15,11 @@ import java.util.Map;
 @Component("attendenceDao")
 @Mapper
 public interface AttendenceDao {
-    @Insert("INSERT INTO `attendence` (name, start_time, end_time, user_id, class_id,sign_code)" +
+    @Insert("INSERT INTO `attendence` (name, startTime, endTime, userId, classId,signCode)" +
             "VALUES(#{name}, #{startTime}, #{endTime}, #{userId},#{classId},#{signCode})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(Attendence c);
 
-    @Select("select * from attendence where user_id=#{teacherId} and class_id=#{classId} order by id")
+    @Select("select * from attendence where userId=#{teacherId} and classId=#{classId} order by id")
     List<Attendence> selAttendenceByClass(int teacherId,int classId);
 }

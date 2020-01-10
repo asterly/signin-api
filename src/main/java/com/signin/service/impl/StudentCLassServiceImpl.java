@@ -17,9 +17,9 @@ public class StudentCLassServiceImpl implements StudentClassService {
     @Override
     public List<Map> selStudentClass(Map req) {
 
-        String classid = req.get("classid").toString();
+        String classId = req.get("classId").toString();
 
-        return studentClassDao.selStudentClass(Integer.parseInt(classid));
+        return studentClassDao.selStudentClass(Integer.parseInt(classId));
     }
 
     public Long insert(Map req){

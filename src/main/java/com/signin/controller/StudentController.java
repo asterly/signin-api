@@ -74,8 +74,18 @@ public class StudentController {
      * @param req
      * @return
      */
-    @PostMapping("findSignRecord")
-    public String findSignRecord(@RequestBody Map<String, String> req){
-        return ResultData.success(studentService.findSignRecord(req));
+    @PostMapping("findAllSignRecord")
+    public String findAllSignRecord(@RequestBody Map<String, String> req){
+        return ResultData.success(studentService.findAllSignRecord(req));
+    }
+
+    /**
+     * 根据签到id和学生id查询学生是否参加该次签到
+     * @param req
+     * @return
+     */
+    @PostMapping("isSign")
+    public String isSign(@RequestBody Map<String, String> req){
+        return ResultData.success(studentService.isSign(req));
     }
 }

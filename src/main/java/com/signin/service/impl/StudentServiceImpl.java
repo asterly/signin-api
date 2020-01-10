@@ -76,9 +76,23 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Map> findSignRecord(Map<String, String> req) {
+    public List<Map> findAllSignRecord(Map<String, String> req) {
         int studentId = Integer.parseInt(req.get("studentId"));
         int classId = Integer.parseInt(req.get("classId"));
         return signRecordDao.selRecordByStu(studentId,classId);
+    }
+
+    @Override
+    public String isSign(Map<String, String> req) {
+        SignRecord signRecord = new SignRecord();
+        Long attendenceId = Long.parseLong(req.get("attendenceId"));
+        Long studentId = Long.parseLong(req.get("studentId"));
+        signRecord.setAttendenceId(attendenceId);
+        signRecord.setUserId(studentId);
+        List signList = signRecordDao.selRecordByAttendenceID(signRecord);
+        if(signList.size()>0){
+            return "该次已签到";
+        }
+        return "该次未签到";
     }
 }

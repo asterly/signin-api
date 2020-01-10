@@ -16,17 +16,17 @@ import java.util.Map;
 @Component("signRecordDao")
 @Mapper
 public interface SignRecordDao {
-    @Insert("INSERT INTO `sign_record` ( `user_id`, `attendence_id`) VALUES(#{userId}, #{attendenceId})")
+    @Insert("INSERT INTO `sign_record` ( `userId`, `attendenceId`) VALUES(#{userId}, #{attendenceId})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(SignRecord c);
 
-    @Select("SELECT id,attendence_id,user_id,sign_time FROM `sign_record` WHERE attendence_id=#{attendenceId} AND user_id=#{userId} ORDER BY id DESC")
+    @Select("SELECT id,attendenceId,userId,signTime FROM `sign_record` WHERE attendenceId=#{attendenceId} AND userId=#{userId} ORDER BY id DESC")
     List<Map> selRecordByAttendenceID(SignRecord signRecord);
 
-    @Select("select * from sign_record where attendence_id=#{attendenceId} order by user_id")
+    @Select("select * from sign_record where attendenceId=#{attendenceId} order by userId")
     List<SignRecord> selAllRecordByAttendenceId(int attendenceId);
 
     @Select("select * from sign_record s,attendence a \n"+
-            "where s.user_id=#{studentId} and s.attendence_id=a.id and a.class_id=#{classId} \n")
+            "where s.userId=#{studentId} and s.attendenceId=a.id and a.classId=#{classId} \n")
     List<Map> selRecordByStu(int studentId,int classId);
 }
