@@ -2,11 +2,9 @@ package com.signin.service.impl;
 
 import com.signin.dao.SignRecordDao;
 import com.signin.model.Attendence;
-import com.signin.model.Class;
 import com.signin.model.SignRecord;
 import com.signin.service.StudentService;
 import com.signin.utils.RandomSignCode;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +67,12 @@ public class StudentServiceImpl implements StudentService {
             return "签到失败";
         }
         return "签到失败！签到码错误";
+    }
+
+    public String studentJoinClass(Map<String, String> req){
+        String classId = req.get("classId");
+
+        return "";
     }
 
 

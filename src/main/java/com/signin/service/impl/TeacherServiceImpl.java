@@ -106,4 +106,7 @@ public class TeacherServiceImpl implements TeacherService {
         int attendenceId = Integer.parseInt(req.get("attendenceId"));
         return signRecordDao.selAllRecordByAttendenceId(attendenceId);
     }
+
+
+
 }

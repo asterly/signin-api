@@ -65,6 +65,11 @@ public class StudentController {
         //return ResultData.success(studentService.signIN(req));
     }
 
+    @PostMapping("/joinClass")
+    public String studentJoinClass(@RequestBody Map<String, String> req){
+        return "";
+    }
+
 
 
 }
