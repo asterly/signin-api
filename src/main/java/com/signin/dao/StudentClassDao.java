@@ -11,7 +11,7 @@ import java.util.Map;
 public interface StudentClassDao {
     @Insert("INSERT INTO `student_class` (`student_id`, `class_id`) VALUES (#{userid}, #{classid})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
-    Long insert(Map c);//新建班级
+    Long insert(Map c);//学生导入班级
 
     /**
      * 更具班级号查询当前班级的所有学生信息

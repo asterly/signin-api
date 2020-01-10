@@ -16,10 +16,10 @@ public class Student {
     private String name;
     private String number;
     private String openid;
-    @Field("class_id")
-    private String classId;
-    @Field("class_name")
-    private String className;
+//    @Field("class_id")
+//    private String classId;
+//    @Field("class_name")
+//    private String className;
     private List<Integer> records;
 
     public Long getId() {
@@ -54,21 +54,21 @@ public class Student {
         this.openid = openid;
     }
 
-    public String getClassId() {
-        return classId;
-    }
-
-    public void setClassId(String classId) {
-        this.classId = classId;
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
+//    public String getClassId() {
+//        return classId;
+//    }
+//
+//    public void setClassId(String classId) {
+//        this.classId = classId;
+//    }
+//
+//    public String getClassName() {
+//        return className;
+//    }
+//
+//    public void setClassName(String className) {
+//        this.className = className;
+//    }
 
     public List<Integer> getRecords() {
         return records;
@@ -85,8 +85,8 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", number='" + number + '\'' +
                 ", openid='" + openid + '\'' +
-                ", classId='" + classId + '\'' +
-                ", className='" + className + '\'' +
+//                ", classId='" + classId + '\'' +
+//                ", className='" + className + '\'' +
                 ", records=" + records +
                 '}';
     }
