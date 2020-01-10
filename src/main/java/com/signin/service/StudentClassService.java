@@ -7,6 +7,7 @@ public interface StudentClassService {
 
     List<Map> selStudentClass(Map classid);
 
-    Long insert(Map req);
+    Long insertByClassId(Map req);
 
+    Long insertByClassName(Map req);
 }

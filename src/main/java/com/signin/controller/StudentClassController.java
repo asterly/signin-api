@@ -1,6 +1,7 @@
 package com.signin.controller;
 
 
+import com.signin.common.ResultData;
 import com.signin.service.StudentClassService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +24,27 @@ public class StudentClassController {
      * @return
      */
     @PostMapping("/selClassStudent")
-    public List<Map> selStudentClass(Map req) {
-        return service.selStudentClass(req);
+    public String selStudentClass(Map req) {
+        return ResultData.success(service.selStudentClass(req));
     }
 
     /**
-     * 将学生加入班级
+     * 根据班级id将学生加入班级
      * @param req
      * @return
      */
-    @PostMapping("/joinClass")
-    public Long insert(Map req){
-        return service.insert(req);
+    @PostMapping("/joinClassById")
+    public String joinByClassId(Map req){
+        return ResultData.success(service.insertByClassId(req));
+    }
+
+    /**
+     * 根据班级名称将学生加入班级
+     * @param req
+     * @return
+     */
+    @PostMapping("/joinClassByName")
+    public String joinByClassName(Map req){
+        return ResultData.success(service.insertByClassName(req));
     }
 }

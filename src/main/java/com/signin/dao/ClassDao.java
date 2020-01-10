@@ -24,4 +24,7 @@ public interface ClassDao {
 
     @Update("UPDATE `class` SET invalid=1 WHERE id=#{classId}")
     Boolean delete(Long classId);//根据班级id删除班级
+
+    @Select("select id from class where name=#{className}")
+    Long findClassIdByClassName(String className);
 }
