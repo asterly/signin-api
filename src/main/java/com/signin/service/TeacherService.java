@@ -18,7 +18,7 @@ public interface TeacherService {
 
     Class addClass(Map<String, String> req);
 
-    List<Class> listClasses(Teacher teacher);
+    List<Class> listClasses(Map<String,String> req);
 
     Boolean deleteClass(Long classId);
 

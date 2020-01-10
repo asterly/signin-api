@@ -55,8 +55,9 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<Class> listClasses(Teacher teacher) {//根据老师查询其名下的所有班级
-        return classDao.list(teacher);
+    public List<Class> listClasses(Map<String, String> req) {//根据老师查询其名下的所有班级
+        Long teacherId = Long.parseLong(req.get("teacherId"));
+        return classDao.list(teacherId);
     }
 
     @Override

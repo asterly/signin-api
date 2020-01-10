@@ -4,8 +4,10 @@ import com.signin.common.ResultData;
 import com.signin.model.Teacher;
 import com.signin.service.StudentService;
 import com.signin.service.TeacherService;
+import com.signin.utils.UserInfoUtil;
 import io.swagger.annotations.Api;
 import org.bson.codecs.pojo.annotations.BsonIgnore;
+import org.mapstruct.BeforeMapping;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -26,21 +28,25 @@ public class TeacherController {
         this.studentService = studentService;
     }
 
-    @GetMapping("/teachers")
+    /**
+     * 查询老师名下的班级
+     * @param req
+     * @return
+     */
+    @GetMapping("/findClass")
     @ResponseBody
-    public String list() {
-        return null;
+    public String listClasses(@RequestBody Map<String, String> req) {
+        return ResultData.success(teacherService.listClasses(req));
     }
 
-    @GetMapping("/class")
+    /**
+     * 创建班级
+     * @param req
+     * @return
+     */
+    @PostMapping("/createClass")
     @ResponseBody
-    public String listClasses(@RequestBody Teacher teacher) {//查询名下所有班级
-        return ResultData.success(teacherService.listClasses(teacher));
-    }
-
-    @PostMapping("/class")
-    @ResponseBody
-    public String addClass(@RequestBody Map<String, String> req) {//创建班级
+    public String addClass(@RequestBody Map<String, String> req) {
         try {
             return ResultData.success(teacherService.addClass(req));
         } catch (Exception e) {
@@ -49,10 +55,10 @@ public class TeacherController {
         }
     }
 
-    @DeleteMapping("/class")
+    @DeleteMapping("/deleteClass")
     public String deleteClass(@RequestBody Map<String, String> req) {
         try {
-            return ResultData.success(teacherService.deleteClass(Long.parseLong(req.get("id"))));
+            return ResultData.success(teacherService.deleteClass(Long.parseLong(req.get("classId"))));
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.serverError();
@@ -71,7 +77,7 @@ public class TeacherController {
     }
 
     /**
-     * 教师选择班级查询该班级的所有签到
+     * 选择班级查询该班级的所有签到
      * @param req
      * @return
      */

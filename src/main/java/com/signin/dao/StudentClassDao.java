@@ -14,7 +14,7 @@ public interface StudentClassDao {
     Long insert(Map c);//学生导入班级
 
     /**
-     * 更具班级号查询当前班级的所有学生信息
+     * 根据班级号查询当前班级的所有学生信息
      * @param classid
      * @return
      */

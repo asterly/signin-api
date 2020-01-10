@@ -26,8 +26,8 @@ public class StudentController {
     @Autowired
     private HttpServletRequest request;
 
-    @Autowired
-    private HttpServletResponse response;
+//    @Autowired
+//    private HttpServletResponse response;
 
     private final StudentService studentService;
     private final StudentRepository studentRepository;
@@ -55,7 +55,11 @@ public class StudentController {
 
     }
 
-
+    /**
+     * 学生参加签到
+     * @param req
+     * @return
+     */
     @ApiModelProperty(value = "/signin")
     @PostMapping("/signin")
     public String signin(@RequestBody Map<String, String> req){
@@ -65,5 +69,13 @@ public class StudentController {
         //return ResultData.success(studentService.signIN(req));
     }
 
-
+    /**
+     * 根据班级id和学生id查询学生在该班级所有的签到记录
+     * @param req
+     * @return
+     */
+    @PostMapping("findSignRecord")
+    public String findSignRecord(@RequestBody Map<String, String> req){
+        return ResultData.success(studentService.findSignRecord(req));
+    }
 }

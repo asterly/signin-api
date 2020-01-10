@@ -75,5 +75,10 @@ public class StudentServiceImpl implements StudentService {
         return "";
     }
 
-
+    @Override
+    public List<Map> findSignRecord(Map<String, String> req) {
+        int studentId = Integer.parseInt(req.get("studentId"));
+        int classId = Integer.parseInt(req.get("classId"));
+        return signRecordDao.selRecordByStu(studentId,classId);
+    }
 }

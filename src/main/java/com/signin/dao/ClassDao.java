@@ -19,8 +19,8 @@ public interface ClassDao {
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(Class c);//新建班级
 
-    @Select("SELECT * FROM `class` WHERE invalid=0 AND teacher_id=#{id} ORDER BY id DESC")
-    List<Class> list(Teacher teacher);//查询老师其名下的班级
+    @Select("SELECT * FROM `class` WHERE invalid=0 AND teacher_id=#{teacherId} ORDER BY id DESC")
+    List<Class> list(Long teacherId);//查询老师其名下的班级
 
     @Update("UPDATE `class` SET invalid=1 WHERE id=#{classId}")
     Boolean delete(Long classId);//根据班级id删除班级

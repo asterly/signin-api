@@ -25,4 +25,8 @@ public interface SignRecordDao {
 
     @Select("select * from sign_record where attendence_id=#{attendenceId} order by user_id")
     List<SignRecord> selAllRecordByAttendenceId(int attendenceId);
+
+    @Select("select * from sign_record s,attendence a \n"+
+            "where s.user_id=#{studentId} and s.attendence_id=a.id and a.class_id=#{classId} \n")
+    List<Map> selRecordByStu(int studentId,int classId);
 }
