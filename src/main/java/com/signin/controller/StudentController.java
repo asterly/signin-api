@@ -56,7 +56,7 @@ public class StudentController {
     }
 
 
-    @ApiModelProperty(value = "/test")
+    @ApiModelProperty(value = "/signin")
     @PostMapping("/signin")
     public String signin(@RequestBody Map<String, String> req){
         UserInfoUtil.parseUser(request,req);
