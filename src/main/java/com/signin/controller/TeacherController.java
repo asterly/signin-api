@@ -5,6 +5,7 @@ import com.signin.model.Teacher;
 import com.signin.service.StudentService;
 import com.signin.service.TeacherService;
 import io.swagger.annotations.Api;
+import org.bson.codecs.pojo.annotations.BsonIgnore;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -33,13 +34,13 @@ public class TeacherController {
 
     @GetMapping("/class")
     @ResponseBody
-    public String listClasses(@RequestBody Teacher teacher) {
+    public String listClasses(@RequestBody Teacher teacher) {//查询名下所有班级
         return ResultData.success(teacherService.listClasses(teacher));
     }
 
     @PostMapping("/class")
     @ResponseBody
-    public String addClass(@RequestBody Map<String, String> req) {
+    public String addClass(@RequestBody Map<String, String> req) {//创建班级
         try {
             return ResultData.success(teacherService.addClass(req));
         } catch (Exception e) {
@@ -67,5 +68,25 @@ public class TeacherController {
     @PostMapping("/openSign")
     public String openSignTask(@RequestBody Map<String, String> req){
         return ResultData.success(teacherService.openSign(req));
+    }
+
+    /**
+     * 教师选择班级查询该班级的所有签到
+     * @param req
+     * @return
+     */
+    @PostMapping("/allAttendence")
+    public String selAttendenceByClass(@RequestBody Map<String, String> req){
+        return ResultData.success(teacherService.selAttendenceByClass(req));
+    }
+
+    /**
+     * 教师选择某次签到查看该次签到具体的情况
+     * @param req
+     * @return
+     */
+    @PostMapping("/signRecord")
+    public String selSignRecordByAttendence(@RequestBody Map<String, String> req){
+        return ResultData.success(teacherService.selSignRecordByAttendence(req));
     }
 }

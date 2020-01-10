@@ -17,7 +17,7 @@ public class Attendence {
     private Timestamp endTime;
     private Long userId;
     private Long classId;
-    private Long signCode;
+    private Long signCode;                      //签到码
 
     public Long getId() {
         return id;

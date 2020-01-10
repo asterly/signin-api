@@ -1,6 +1,8 @@
 package com.signin.service;
 
+import com.signin.model.Attendence;
 import com.signin.model.Class;
+import com.signin.model.SignRecord;
 import com.signin.model.Teacher;
 
 import java.util.List;
@@ -19,5 +21,10 @@ public interface TeacherService {
     List<Class> listClasses(Teacher teacher);
 
     Boolean deleteClass(Long classId);
-    public String openSign(Map<String, String> req);
+
+    String openSign(Map<String, String> req);
+
+    List<Attendence> selAttendenceByClass(Map<String,String> req);
+
+    List<SignRecord> selSignRecordByAttendence(Map<String,String> req);
 }

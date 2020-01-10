@@ -19,6 +19,7 @@ public interface AttendenceDao {
             "VALUES(#{name}, #{startTime}, #{endTime}, #{userId},#{classId},#{signCode})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(Attendence c);
-    @Select("SELECT  FROM `class` WHERE invalid=0 AND teacher_id=#{id} ORDER BY id DESC")
-    List<Map> list(Teacher teacher);
+
+    @Select("select * from attendence where user_id=#{teacherId} and class_id=#{classId} order by id")
+    List<Attendence> selAttendenceByClass(int teacherId,int classId);
 }
