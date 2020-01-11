@@ -62,12 +62,10 @@ public class StudentController {
      * @return
      */
     @ApiOperation("学生参加签到")
-    @PostMapping("/signin")
-    public String signin(@RequestBody Map<String, String> req){
+    @PostMapping("/signIn")
+    public String signIn(@RequestBody Map<String, String> req){
         UserInfoUtil.parseUser(request,req);
-        System.out.println(JSONObject.toJSONString(req));
-        return JSONObject.toJSONString(req);
-        //return ResultData.success(studentService.signIN(req));
+        return ResultData.success(studentService.signIN(req));
     }
 
     /**
@@ -78,6 +76,7 @@ public class StudentController {
     @ApiOperation("根据班级id和学生id查询学生在该班级所有的签到记录")
     @PostMapping("/findAllSignRecord")
     public String findAllSignRecord(@RequestBody Map<String, String> req){
+        UserInfoUtil.parseUser(request,req);
         return ResultData.success(studentService.findAllSignRecord(req));
     }
 
@@ -89,6 +88,7 @@ public class StudentController {
     @ApiOperation("根据签到id和学生id查询学生是否参加该次签到")
     @PostMapping("/isSign")
     public String isSign(@RequestBody Map<String, String> req){
+        UserInfoUtil.parseUser(request,req);
         return ResultData.success(studentService.isSign(req));
     }
 }
