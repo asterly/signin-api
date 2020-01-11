@@ -1,18 +1,13 @@
 package com.signin.service.impl;
 
-import com.signin.dao.AttendenceDao;
-import com.signin.dao.ClassDao;
-import com.signin.dao.SignRecordDao;
-import com.signin.dao.TeacherDao;
-import com.signin.model.Attendence;
-import com.signin.model.SignRecord;
-import com.signin.model.Teacher;
+import com.signin.dao.*;
+import com.signin.model.*;
+import com.signin.model.Class;
 import com.signin.service.TeacherService;
 import com.signin.utils.RandomSignCode;
 import com.signin.utils.RemoveTimerTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.signin.model.Class;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -27,20 +22,19 @@ import java.util.Map;
 @Service
 public class TeacherServiceImpl implements TeacherService {
 
-    private final TeacherDao teacherDao;
-    private final ClassDao classDao;
-    private final AttendenceDao attendenceDao;
+    @Autowired
+    private  TeacherDao teacherDao;
+    @Autowired
+    private  ClassDao classDao;
+    @Autowired
+    private  AttendenceDao attendenceDao;
 
-    private final SignRecordDao signRecordDao;
+    @Autowired
+    private  SignRecordDao signRecordDao;
 
-    public TeacherServiceImpl(TeacherDao teacherDao, ClassDao classDao,
-                              AttendenceDao attendenceDao,SignRecordDao signRecordDao) {
-        this.teacherDao = teacherDao;
-        this.classDao = classDao;
-        this.attendenceDao=attendenceDao;
-        this.signRecordDao=signRecordDao;
+    @Autowired
+    private  UserDao userDao;
 
-    }
 
     @Override
     public List<Teacher> list() {//查询所有老师
@@ -50,7 +44,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Class addClass(Map<String, String> req) {//新增班级
         Long parent = req.get("parent") != null ? Long.parseLong(req.get("parent")) : 0;
-        Class c = new Class(req.get("name"), parent, Long.parseLong(req.get("teacherId")));
+        Class c = new Class(req.get("className"), parent, Long.parseLong(req.get("teacherId")));
         return classDao.insert(c) > 0 ? c : null;
     }
 
@@ -69,7 +63,12 @@ public class TeacherServiceImpl implements TeacherService {
     public String openSign(Map<String, String> req) {
         //1、随机生成6位数字的签到码
         String signCode = RandomSignCode.signCode();
-        String teacherId = req.get("teacherId");
+        List<User> userInfo = userDao.selUserByOpenID(req.get("openid"),req.get("roleid"));
+        if(userInfo.size()<1){
+            return "当前用户不具有发起签到的权限";
+        }
+
+        Long teacherId = userInfo.get(0).getId();
         String classId = req.get("classId");
 
         Attendence attendence=new Attendence();
@@ -80,7 +79,7 @@ public class TeacherServiceImpl implements TeacherService {
         //默认签到时间为1分钟内
         attendence.setEndTime(new Timestamp(time+60000L));
         attendence.setName(teacherId+"_"+classId);
-        attendence.setUserId(Long.parseLong(teacherId));
+        attendence.setUserId(teacherId);
         //写入签到码
         attendence.setSignCode(Long.parseLong(signCode));
         Long insert = attendenceDao.insert(attendence);

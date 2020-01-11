@@ -24,6 +24,10 @@ spring:
 logging:
   pattern:
     console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"
+  level:
+    com:
+      signin:
+        dao: DEBUG
 mybatis:
   configuration:
     map-underscore-to-camel-case: true

@@ -30,11 +30,11 @@ public class StudentServiceImpl implements StudentService {
 
 
     @Override
-    public String signIN(Map<String, String> req) {
-        String teacherID = req.get("teacherID");
-        String classID = req.get("classID");
-        String signCode = req.get("signCode");
-        String userID = req.get("userID");
+    public String signIN(Map<String, Object> req) {
+        String teacherID = req.get("teacherID").toString();
+        String classID = req.get("classID").toString();
+        String signCode = req.get("signCode").toString();
+        String userID = req.get("user_id").toString();
         //读取内存中的签到签到目标对象
         Attendence attendence=null;
         try {

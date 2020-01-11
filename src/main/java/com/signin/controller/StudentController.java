@@ -63,7 +63,7 @@ public class StudentController {
      */
     @ApiOperation("学生参加签到")
     @PostMapping("/signIn")
-    public String signIn(@RequestBody Map<String, String> req){
+    public String signIn(@RequestBody Map<String, Object> req){
         UserInfoUtil.parseUser(request,req);
         return ResultData.success(studentService.signIN(req));
     }

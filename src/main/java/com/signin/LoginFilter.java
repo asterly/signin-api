@@ -46,11 +46,11 @@ public class LoginFilter implements Filter {
             if(userInfo==null){
                //本地调试
                 User user=new User();
-                user.setId(10001L);
+                user.setId(100001L);
                 user.setInvalid(1);
                 user.setName("测试人员");
                 user.setOpenid("4937BC8F45C794856AC265A85D003173");
-                user.setRole("10001");
+                user.setRole("100001");
                 ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
 
             }else{
