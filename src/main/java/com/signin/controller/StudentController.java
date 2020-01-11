@@ -8,6 +8,7 @@ import com.signin.utils.UserInfoUtil;
 import com.signin.utils.WeChatUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ import java.util.Map;
  * @Date: 2019/12/6 10:23
  * @Description:
  */
-@Api
+@Api(tags = {"学生的操作"})
 @RestController
 public class StudentController {
     @Autowired
@@ -60,7 +61,7 @@ public class StudentController {
      * @param req
      * @return
      */
-    @ApiModelProperty(value = "/signin")
+    @ApiOperation("学生参加签到")
     @PostMapping("/signin")
     public String signin(@RequestBody Map<String, String> req){
         UserInfoUtil.parseUser(request,req);
@@ -74,7 +75,8 @@ public class StudentController {
      * @param req
      * @return
      */
-    @PostMapping("findAllSignRecord")
+    @ApiOperation("根据班级id和学生id查询学生在该班级所有的签到记录")
+    @PostMapping("/findAllSignRecord")
     public String findAllSignRecord(@RequestBody Map<String, String> req){
         return ResultData.success(studentService.findAllSignRecord(req));
     }
@@ -84,7 +86,8 @@ public class StudentController {
      * @param req
      * @return
      */
-    @PostMapping("isSign")
+    @ApiOperation("根据签到id和学生id查询学生是否参加该次签到")
+    @PostMapping("/isSign")
     public String isSign(@RequestBody Map<String, String> req){
         return ResultData.success(studentService.isSign(req));
     }

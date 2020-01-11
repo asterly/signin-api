@@ -11,7 +11,7 @@ import java.util.Map;
 public interface StudentClassDao {
     /**
      * 根据班级id将学生加入班级
-     * @param userId
+     * @param studedntId
      * @param classId
      * @return
      */
