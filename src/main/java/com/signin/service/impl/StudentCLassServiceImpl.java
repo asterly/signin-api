@@ -41,7 +41,7 @@ public class StudentCLassServiceImpl implements StudentClassService {
         List<Map> userInfo = studentClassDao.selValidStudentInfo(req.get("openid").toString(),classId);
         if(userInfo.size()<1){
             //当没有查询到关联记录时执行操作
-            String user_id = req.get("user_id").toString();
+            String user_id = req.get("userId").toString();
             Long studentId=Long.parseLong(user_id);
             return studentClassDao.insertByClassId(studentId,classId);
         }
@@ -56,7 +56,7 @@ public class StudentCLassServiceImpl implements StudentClassService {
         List<Map> userInfo = studentClassDao.selValidStudentInfo(req.get("openid").toString(),classId);
         if(userInfo.size()<1){
             //当没有查询到关联记录时执行操作
-            String user_id = req.get("user_id").toString();
+            String user_id = req.get("userId").toString();
             Long studentId=Long.parseLong(user_id);
             return studentClassDao.insertByClassId(studentId,classId);
         }

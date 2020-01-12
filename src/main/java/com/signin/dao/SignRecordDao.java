@@ -4,10 +4,7 @@ package com.signin.dao;
 import com.signin.model.Class;
 import com.signin.model.SignRecord;
 import com.signin.model.Teacher;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -28,5 +25,5 @@ public interface SignRecordDao {
 
     @Select("select * from sign_record s,attendence a \n"+
             "where s.userId=#{studentId} and s.attendenceId=a.id and a.classId=#{classId} \n")
-    List<Map> selRecordByStu(int studentId,int classId);
+    List<Map> selRecordByStu(@Param("studentId") int studentId,@Param("classId") int classId);
 }

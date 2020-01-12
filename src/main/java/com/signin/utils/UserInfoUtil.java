@@ -51,7 +51,7 @@ public class UserInfoUtil {
     public static User parseUser(HttpServletRequest request,Map params){
         User userInfo = (User) request.getSession().getAttribute("userInfo");
         if(userInfo != null){
-            params.put("user_id", userInfo.getId());
+            params.put("userId", userInfo.getId());
             params.put("openid", userInfo.getOpenid());
             params.put("name", userInfo.getName());
             params.put("roleid",userInfo.getRole());

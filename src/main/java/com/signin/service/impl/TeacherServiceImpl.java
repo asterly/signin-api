@@ -44,13 +44,13 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Class addClass(Map<String, String> req) {//新增班级
         Long parent = req.get("parent") != null ? Long.parseLong(req.get("parent")) : 0;
-        Class c = new Class(req.get("className"), parent, Long.parseLong(req.get("teacherId")));
+        Class c = new Class(req.get("className"), parent, Long.parseLong(req.get("userId")));
         return classDao.insert(c) > 0 ? c : null;
     }
 
     @Override
     public List<Class> listClasses(Map<String, String> req) {//根据老师查询其名下的所有班级
-        Long teacherId = Long.parseLong(req.get("teacherId"));
+        Long teacherId = Long.parseLong(req.get("userId"));
         return classDao.list(teacherId);
     }
 
@@ -96,7 +96,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Attendence> selAttendenceByClass(Map<String, String> req) {
-        int teacherId = Integer.parseInt(req.get("teacherId"));
+        int teacherId = Integer.parseInt(req.get("userId"));
         int classId = Integer.parseInt(req.get("classId"));
         return attendenceDao.selAttendenceByClass(teacherId,classId);
     }

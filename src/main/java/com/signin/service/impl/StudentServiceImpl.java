@@ -31,10 +31,10 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public String signIN(Map<String, Object> req) {
-        String teacherID = req.get("teacherID").toString();
-        String classID = req.get("classID").toString();
+        String teacherID = req.get("teacherId").toString();
+        String classID = req.get("classId").toString();
         String signCode = req.get("signCode").toString();
-        String userID = req.get("user_id").toString();
+        String userID = req.get("userId").toString();
         //读取内存中的签到签到目标对象
         Attendence attendence=null;
         try {
@@ -77,7 +77,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<Map> findAllSignRecord(Map<String, String> req) {
-        int studentId = Integer.parseInt(req.get("studentId"));
+        int studentId = Integer.parseInt(req.get("userId"));
         int classId = Integer.parseInt(req.get("classId"));
         return signRecordDao.selRecordByStu(studentId,classId);
     }
@@ -86,7 +86,7 @@ public class StudentServiceImpl implements StudentService {
     public String isSign(Map<String, String> req) {
         SignRecord signRecord = new SignRecord();
         Long attendenceId = Long.parseLong(req.get("attendenceId"));
-        Long studentId = Long.parseLong(req.get("studentId"));
+        Long studentId = Long.parseLong(req.get("userId"));
         signRecord.setAttendenceId(attendenceId);
         signRecord.setUserId(studentId);
         List signList = signRecordDao.selRecordByAttendenceID(signRecord);
