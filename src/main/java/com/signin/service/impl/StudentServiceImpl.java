@@ -39,10 +39,8 @@ public class StudentServiceImpl implements StudentService {
         Attendence attendence=null;
         try {
             attendence =(Attendence) RandomSignCode.getCode(teacherID + "_" + classID);
-
         }catch (Exception e){
             return "签到失败，签到结束";
-
         }
 
         if(attendence==null){
