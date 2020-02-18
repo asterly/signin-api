@@ -16,15 +16,15 @@ import java.util.Map;
 public interface TeacherService {
     List<Teacher> list();
 
-    Class addClass(Map<String, String> req);
+    Class addClass(Map req);
 
-    List<Class> listClasses(Map<String,String> req);
+    List<Class> listClasses(Map req);
 
     Boolean deleteClass(Long classId);
 
-    String openSign(Map<String, String> req);
+    String openSign(Map req);
 
-    List<Attendence> selAttendenceByClass(Map<String,String> req);
+    List<Attendence> selAttendenceByClass(Map req);
 
-    List<SignRecord> selSignRecordByAttendence(Map<String,String> req);
+    List<SignRecord> selSignRecordByAttendence(Map req);
 }

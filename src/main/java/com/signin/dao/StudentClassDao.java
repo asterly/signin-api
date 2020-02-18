@@ -15,7 +15,7 @@ public interface StudentClassDao {
      * @param classId
      * @return
      */
-    @Insert("INSERT INTO `student_class` (`studentId`, `classId`) VALUES (#{studentId}, #{classId})")
+    @Insert("INSERT INTO `student_class` (`student_id`, `class_id`) VALUES (#{studentId}, #{classId})")
     //@Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insertByClassId(@Param("studentId") Long studedntId,@Param("classId") Long classId);
 
@@ -24,9 +24,9 @@ public interface StudentClassDao {
      * @param classId
      * @return
      */
-    @Select("select a.studentId,c.`name` studentName,a.classId,b.`name` className,teacherId\n" +
+    @Select("select a.student_id,c.`name` studentName,a.class_id,b.`name` className,teacher_id\n" +
             "from student_class a,class b,user c \n" +
-            "where a.classId=b.id and a.studentId=c.id and a.state=1 and a.classId=#{classId}\n")
+            "where a.class_id=b.id and a.student_id=c.id and a.state=1 and a.class_id=#{classId}\n")
     List<Map> selStudentClass(@Param("classId") int classId);
 
     /**
@@ -34,9 +34,9 @@ public interface StudentClassDao {
      * @param openid
      * @return
      */
-    @Select("select a.studentId,registerTime,a.classId,a.state,b.name,b.openid,b.role\n" +
-            " from student_class a ,user b where b.invalid=1 and a.studentId=b.id \n" +
-            "and openid=#{openid} and a.classId=#{classId}")
+    @Select("select a.student_id,register_time,a.class_id,a.state,b.name,b.openid,b.role\n" +
+            " from student_class a ,user b where b.invalid=1 and a.student_id=b.id \n" +
+            "and openid=#{openid} and a.class_id=#{classId}")
     List<Map> selValidStudentInfo(@Param("openid") String openid,@Param("classId") Long classId);
 
 }

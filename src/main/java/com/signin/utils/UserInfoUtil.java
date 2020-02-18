@@ -54,7 +54,7 @@ public class UserInfoUtil {
             params.put("userId", userInfo.getId());
             params.put("openid", userInfo.getOpenid());
             params.put("name", userInfo.getName());
-            params.put("roleid",userInfo.getRole());
+            params.put("roleId",userInfo.getRoleId());
         }
 
         return userInfo;

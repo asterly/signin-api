@@ -42,16 +42,16 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Class addClass(Map<String, String> req) {//新增班级
-        Long parent = req.get("parent") != null ? Long.parseLong(req.get("parent")) : 0;
-        Class c = new Class(req.get("className"), parent, Long.parseLong(req.get("userId")));
+    public Class addClass(Map req) {//新增班级
+        Long parent = req.get("parent") != null ? Long.parseLong((String) req.get("parent")) : 0;
+        Class c = new Class((String) req.get("className"), parent, Long.parseLong((String) req.get("userId")));
         return classDao.insert(c) > 0 ? c : null;
     }
 
     @Override
-    public List<Class> listClasses(Map<String, String> req) {//根据老师查询其名下的所有班级
-        Long teacherId = Long.parseLong(req.get("userId"));
-        return classDao.list(teacherId);
+    public List<Class> listClasses(Map req) {//根据老师查询其名下的所有班级
+        Long userId = (Long) req.get("userId");
+        return classDao.list(userId);
     }
 
     @Override
@@ -60,16 +60,16 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public String openSign(Map<String, String> req) {
+    public String openSign(Map req) {
         //1、随机生成6位数字的签到码
         String signCode = RandomSignCode.signCode();
-        List<User> userInfo = userDao.selUserByOpenID(req.get("openid"),req.get("roleid"));
+        List<User> userInfo = userDao.selUserByOpenID(req.get("openid").toString(),req.get("roleid").toString());
         if(userInfo.size()<1){
             return "当前用户不具有发起签到的权限";
         }
 
         Long teacherId = userInfo.get(0).getId();
-        String classId = req.get("classId");
+        String classId = (String) req.get("classId");
 
         Attendence attendence=new Attendence();
         attendence.setClassId(Long.parseLong(classId));
@@ -95,15 +95,15 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public List<Attendence> selAttendenceByClass(Map<String, String> req) {
-        int teacherId = Integer.parseInt(req.get("userId"));
-        int classId = Integer.parseInt(req.get("classId"));
+    public List<Attendence> selAttendenceByClass(Map req) {
+        int teacherId = Integer.parseInt((String) req.get("userId"));
+        int classId = Integer.parseInt((String) req.get("classId"));
         return attendenceDao.selAttendenceByClass(teacherId,classId);
     }
 
     @Override
-    public List<SignRecord> selSignRecordByAttendence(Map<String, String> req) {
-        int attendenceId = Integer.parseInt(req.get("attendenceId"));
+    public List<SignRecord> selSignRecordByAttendence(Map req) {
+        int attendenceId = Integer.parseInt((String) req.get("attendenceId"));
         return signRecordDao.selAllRecordByAttendenceId(attendenceId);
     }
 

@@ -15,11 +15,11 @@ import java.util.List;
 @Component("classDao")
 @Mapper
 public interface ClassDao {
-    @Insert("INSERT INTO `class`(name, parent, teacherId, createTime) VALUES(#{name}, #{parent}, #{teacherId}, #{createTime})")
+    @Insert("INSERT INTO `class`(name, parent, teacher_id, create_time) VALUES(#{name}, #{parent}, #{teacherId}, #{createTime})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(Class c);//新建班级
 
-    @Select("SELECT * FROM `class` WHERE invalid=0 AND teacherId=#{teacherId} ORDER BY id DESC")
+    @Select("SELECT * FROM `class` WHERE invalid=0 AND teacher_id=#{teacherId} ORDER BY id DESC")
     List<Class> list(Long teacherId);//查询老师其名下的班级
 
     @Update("UPDATE `class` SET invalid=1 WHERE id=#{classId}")
