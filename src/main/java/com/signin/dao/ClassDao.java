@@ -20,11 +20,15 @@ public interface ClassDao {
     Long insert(Class c);//新建班级
 
     @Select("SELECT * FROM `class` WHERE invalid=0 AND teacher_id=#{teacherId} ORDER BY id DESC")
-    List<Class> list(Long teacherId);//查询老师其名下的班级
+    List<Class> list(Long teacherId);//查询老师名下所有班级
 
     @Update("UPDATE `class` SET invalid=1 WHERE id=#{classId}")
     Boolean delete(Long classId);//根据班级id删除班级
 
     @Select("select id from class where name=#{className}")
     Long findClassIdByClassName(String className);
+
+    @Select("select * from class where id=#{classId}")
+    List<Class> selClassInfo(Long classId);
+
 }

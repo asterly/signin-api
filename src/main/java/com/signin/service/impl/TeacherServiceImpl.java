@@ -67,7 +67,6 @@ public class TeacherServiceImpl implements TeacherService {
         if(userInfo.size()<1){
             return "当前用户不具有发起签到的权限";
         }
-
         Long teacherId = userInfo.get(0).getId();
         String classId = (String) req.get("classId");
 
@@ -107,6 +106,27 @@ public class TeacherServiceImpl implements TeacherService {
         return signRecordDao.selAllRecordByAttendenceId(attendenceId);
     }
 
+    @Override
+    public Teacher register(Map req) {
+        String name = (String) req.get("name");
+        Teacher teacher = new Teacher(name);
+        return teacherDao.insert(teacher) > 0 ? teacher : null;
+    }
 
+    @Override
+    public List<String> findName(Long classId) {
+        return teacherDao.findName(classId);
+    }
 
+    @Override
+    public List<Class> selClassInfo(Long classId) {
+        return classDao.selClassInfo(classId);
+    }
+
+    @Override
+    public List<SignRecord> selSignRecordBySignCode(Map req) {
+        int signCode = Integer.parseInt((String) req.get("signCode"));
+        int attendenceId = Integer.parseInt(attendenceDao.findAttendenceIdBySignCode(signCode).toString());
+        return signRecordDao.selAllRecordByAttendenceId(attendenceId);
+    }
 }

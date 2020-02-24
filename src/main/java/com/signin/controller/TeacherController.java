@@ -37,6 +37,24 @@ public class TeacherController {
     }
 
     /**
+     * 将老师的信息录入数据库
+     * @param req
+     * @return
+     */
+    @ApiOperation("老师填写自己的姓名注册")
+    @PostMapping("/teacher/register")
+    @ApiImplicitParam(name = "name",value = "老师姓名",dataType = "String")
+    public String register(@RequestBody Map req){
+        try{
+            UserInfoUtil.parseUser(request,req);
+            return ResultData.success(teacherService.register(req));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
+    /**
      * 查询老师名下的班级
      * @return
      */
@@ -75,20 +93,41 @@ public class TeacherController {
         }
     }
 
+    @ApiOperation("根据班级id查询该班级的老师姓名")
+    @GetMapping("/teacher/name")
+    @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")
+    public String findName(@RequestParam("classId") Long classId){
+        try {
+            return ResultData.success(teacherService.findName(classId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
+    @ApiOperation("根据班级id查询该班级的信息")
+    @GetMapping("/teacher/classInfo")
+    @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")
+    public String selClassInfo(@RequestParam("classId") Long classId){
+        try {
+            return ResultData.success(teacherService.selClassInfo(classId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
     /**
      * 根据班级id删除班级
      * @param classId
      * @return
      */
     @ApiOperation("根据班级id删除班级")
-    @DeleteMapping("/teacher/classes")
+    @GetMapping("/teacher/class")
     @ApiImplicitParam(name = "classId",value = "删除班级的id",dataType = "long")
     public String deleteClass(@RequestParam("classId") Long classId) {
         try {
-            Map req = new HashMap();
-            req.put("classId", classId);
-            UserInfoUtil.parseUser(request,req);
-            return ResultData.success(teacherService.deleteClass(Long.parseLong(req.get("classId").toString())));
+            return ResultData.success(teacherService.deleteClass(classId));
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.serverError();
@@ -147,6 +186,21 @@ public class TeacherController {
             req.put("classId", classId);
             UserInfoUtil.parseUser(request,req);
             return ResultData.success(teacherService.selAttendenceByClass(req));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
+    @ApiOperation("教师根据签到码查看当前签到具体的情况")
+    @GetMapping("/teacher/signRecord")
+    @ApiImplicitParam(name = "signCode",value = "输入的签到码")
+    public String selSignRecordBySignCode(@RequestParam("signCode") Long signCode){
+        try{
+            Map req = new HashMap();
+            req.put("signCode", signCode);
+            UserInfoUtil.parseUser(request,req);
+            return ResultData.success(teacherService.selSignRecordBySignCode(req));
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.serverError();

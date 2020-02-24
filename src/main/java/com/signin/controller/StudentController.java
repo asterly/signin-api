@@ -1,6 +1,5 @@
 package com.signin.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.signin.common.ResultData;
 import com.signin.repository.StudentRepository;
 import com.signin.service.StudentClassService;
@@ -40,6 +39,24 @@ public class StudentController {
         this.service = service;
     }
 
+    /**
+     * 将学生的信息录入数据库
+     * @param req
+     * @return
+     */
+    @ApiOperation("学生填写自己的姓名注册")
+    @PostMapping("/student/register")
+    @ApiImplicitParam(name = "name",value = "学生姓名",dataType = "String")
+    public String register(@RequestBody Map req){
+        try{
+            UserInfoUtil.parseUser(request,req);
+            return ResultData.success(studentService.register(req));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
     @GetMapping("/students")
     @ResponseBody
     String list() {
@@ -57,32 +74,46 @@ public class StudentController {
     }
 
     /**
-     * 学生根据班级id或者班级名称加入班级
+     * 学生查询自己加入的所有班级
+     * @return
+     */
+    @ApiOperation("学生查询自己加入的所有班级")
+    @GetMapping("/student/classes")
+    public String listClasses() {
+        try{
+            Map req = new HashMap();
+            UserInfoUtil.parseUser(request,req);
+            return ResultData.success(service.listClasses(req));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
+    /**
+     * 学生根据班级id加入班级
      * @param req
      * @return
      */
-    @ApiOperation("学生根据班级id或者班级名称加入班级")
+    @ApiOperation("学生根据班级id加入班级")
     @PostMapping("/student/classes")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "classId",value = "班级id",dataType = "long",required = false),
-            @ApiImplicitParam(name = "className",value = "班级名称",dataType = "string",required = false)
-    })
+    @ApiImplicitParam(name = "classId",value = "班级id",dataType = "long")
     public String joinByClassId(@RequestBody Map req){
         try{
             UserInfoUtil.parseUser(request,req);
-            if (req.get("classId") != null){
-                Long aLong = service.insertByClassId(req);
-                if(aLong == -1){
-                    return ResultData.success("学生已经存在于班级中请不要重复添加");
-                }
-                return ResultData.success(aLong);
-            } else {
-                Long aLong = service.insertByClassName(req);
-                if(aLong==-1){
-                    return ResultData.success("学生已经存在与班级中请不要重复添加");
-                }
-                return ResultData.success(aLong);
+//            if (req.get("classId") != null){
+            Long aLong = service.insertByClassId(req);
+            if(aLong == -1){
+                return ResultData.success("学生已经存在于班级中请不要重复添加");
             }
+            return ResultData.success(aLong);
+//            } else {
+//                Long aLong = service.insertByClassName(req);
+//                if(aLong==-1){
+//                    return ResultData.success("学生已经存在与班级中请不要重复添加");
+//                }
+//                return ResultData.success(aLong);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
             return ResultData.serverError();
@@ -96,10 +127,7 @@ public class StudentController {
      */
     @ApiOperation("学生参加签到")
     @PostMapping("/student/sign")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "teacherId",value = "发起签到的老师id"),
-            @ApiImplicitParam(name = "classId",value = "签到班级的id"),
-            @ApiImplicitParam(name = "signCode",value = "学生输入的签到码")})
+    @ApiImplicitParam(name = "signCode",value = "学生输入的签到码")
     public String signIn(@RequestBody Map<String, Object> req){
         try{
             UserInfoUtil.parseUser(request,req);

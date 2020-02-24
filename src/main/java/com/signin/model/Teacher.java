@@ -13,6 +13,14 @@ public class Teacher {
     private String name;
     private String dept;
 
+    public Teacher(String name) {
+        this.name = name;
+    }
+
+    public Teacher(String name, String dept) {
+        this.name = name;
+        this.dept = dept;
+    }
 
     public String getName() {
         return name;

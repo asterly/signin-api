@@ -19,4 +19,13 @@ public interface AttendenceDao {
 
     @Select("select * from attendence where user_id=#{teacherId} and class_id=#{classId} order by id")
     List<Attendence> selAttendenceByClass(@Param("teacherId") int teacherId,@Param("classId") int classId);
+
+    @Select("select class_id from attendence where sign_code=#{signCode}")
+    Long findClassIdBySignCode(int signCode);
+
+    @Select("select user_id from attendence where sign_code=#{signCode}")
+    Long findTeacherIdBySignCode(int signCode);
+
+    @Select("select id from attendence where sign_code=#{signCode}")
+    Long findAttendenceIdBySignCode(int signCode);
 }

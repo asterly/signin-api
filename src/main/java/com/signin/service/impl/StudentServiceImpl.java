@@ -1,10 +1,15 @@
 package com.signin.service.impl;
 
+import com.signin.dao.AttendenceDao;
 import com.signin.dao.SignRecordDao;
+import com.signin.dao.StudentDao;
 import com.signin.model.Attendence;
 import com.signin.model.SignRecord;
+import com.signin.model.Student;
+import com.signin.model.Teacher;
 import com.signin.service.StudentService;
 import com.signin.utils.RandomSignCode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,20 +27,25 @@ public class StudentServiceImpl implements StudentService {
 
     private final SignRecordDao signRecordDao;
 
-    public StudentServiceImpl(MongoTemplate mongoTemplate,SignRecordDao signRecordDao) {
+    private final AttendenceDao attendenceDao;
+
+    private final StudentDao studentDao;
+
+    public StudentServiceImpl(MongoTemplate mongoTemplate,SignRecordDao signRecordDao,AttendenceDao attendenceDao,StudentDao studentDao) {
         this.mongoTemplate = mongoTemplate;
         this.signRecordDao=signRecordDao;
-
+        this.attendenceDao=attendenceDao;
+        this.studentDao=studentDao;
     }
 
 
     @Override
     public String signIN(Map<String, Object> req) {
-        String teacherID = req.get("teacherId").toString();
-        String classID = req.get("classId").toString();
         String signCode = req.get("signCode").toString();
+        String teacherID = attendenceDao.findTeacherIdBySignCode(Integer.parseInt(signCode)).toString();
+        String classID = attendenceDao.findClassIdBySignCode(Integer.parseInt(signCode)).toString();
         String userID = req.get("userId").toString();
-        //读取内存中的签到签到目标对象
+        //读取内存中的签到目标对象
         Attendence attendence=null;
         try {
             attendence =(Attendence) RandomSignCode.getCode(teacherID + "_" + classID);
@@ -92,5 +102,12 @@ public class StudentServiceImpl implements StudentService {
             return "该次已签到";
         }
         return "该次未签到";
+    }
+
+    @Override
+    public Student register(Map req) {
+        String name = (String) req.get("name");
+        Student student = new Student(name);
+        return studentDao.insert(student) > 0 ? student : null;
     }
 }

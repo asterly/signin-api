@@ -1,5 +1,6 @@
 package com.signin.dao;
 
+import com.signin.model.Class;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
@@ -39,4 +40,8 @@ public interface StudentClassDao {
             "and openid=#{openid} and a.class_id=#{classId}")
     List<Map> selValidStudentInfo(@Param("openid") String openid,@Param("classId") Long classId);
 
+    @Select("select b.id,b.name,b.teacher_id,b.create_time\n" +
+            " from student_class a ,class b where b.invalid=1 and a.class_id=b.id \n"+
+            "and a.student_id=#{studentId}")
+    List<Map> listClassesByStudentId(Long studentId);
 }

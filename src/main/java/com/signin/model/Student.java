@@ -22,6 +22,10 @@ public class Student {
 //    private String className;
     private List<Integer> records;
 
+    public Student(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

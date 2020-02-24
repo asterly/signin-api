@@ -1,5 +1,7 @@
 package com.signin.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.sql.Timestamp;
 
 /**
@@ -13,6 +15,7 @@ public class Class {
     private Long parent;
     private Long teacherId;
     private Integer invalid;
+    @JSONField(format="yyyy-MM-dd")
     private Timestamp createTime;
     private Long joinCode;
 
