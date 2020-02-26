@@ -50,7 +50,7 @@ public class LoginFilter implements Filter {
                 user.setInvalid(1);
                 user.setName("测试人员");
                 user.setOpenid("4937BC8F45C794856AC265A85D003173");
-                user.setRoleId(100001L);
+                user.setRoleId(100001);
                 ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
 
             } else{

@@ -2,14 +2,10 @@ package com.signin.service.impl;
 
 import com.signin.dao.AttendenceDao;
 import com.signin.dao.SignRecordDao;
-import com.signin.dao.StudentDao;
-import com.signin.model.Attendence;
-import com.signin.model.SignRecord;
-import com.signin.model.Student;
-import com.signin.model.Teacher;
+import com.signin.dao.UserDao;
+import com.signin.model.*;
 import com.signin.service.StudentService;
 import com.signin.utils.RandomSignCode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +25,13 @@ public class StudentServiceImpl implements StudentService {
 
     private final AttendenceDao attendenceDao;
 
-    private final StudentDao studentDao;
+    private final UserDao userDao;
 
-    public StudentServiceImpl(MongoTemplate mongoTemplate,SignRecordDao signRecordDao,AttendenceDao attendenceDao,StudentDao studentDao) {
+    public StudentServiceImpl(MongoTemplate mongoTemplate,SignRecordDao signRecordDao,AttendenceDao attendenceDao,UserDao userDao) {
         this.mongoTemplate = mongoTemplate;
         this.signRecordDao=signRecordDao;
         this.attendenceDao=attendenceDao;
-        this.studentDao=studentDao;
+        this.userDao=userDao;
     }
 
 
@@ -105,9 +101,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Student register(Map req) {
+    public User register(Map req) {
         String name = (String) req.get("name");
-        Student student = new Student(name);
-        return studentDao.insert(student) > 0 ? student : null;
+        String openid = (String) req.get("openid");
+        User user = new User(name,openid,0,100003);
+        return userDao.insert(user) > 0 ? user : null;
     }
 }

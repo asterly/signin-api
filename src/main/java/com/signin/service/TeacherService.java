@@ -1,9 +1,7 @@
 package com.signin.service;
 
-import com.signin.model.Attendence;
+import com.signin.model.*;
 import com.signin.model.Class;
-import com.signin.model.SignRecord;
-import com.signin.model.Teacher;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +12,7 @@ import java.util.Map;
  * @Description:
  */
 public interface TeacherService {
-    List<Teacher> list();
+    List<User> list();
 
     Class addClass(Map req);
 
@@ -28,7 +26,7 @@ public interface TeacherService {
 
     List<SignRecord> selSignRecordByAttendence(Map req);
 
-    Teacher register(Map req);
+    User register(Map req);
 
     List<String> findName(Long classId);
 

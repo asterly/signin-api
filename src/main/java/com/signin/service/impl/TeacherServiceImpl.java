@@ -23,9 +23,8 @@ import java.util.Map;
 public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
-    private  TeacherDao teacherDao;
-    @Autowired
     private  ClassDao classDao;
+
     @Autowired
     private  AttendenceDao attendenceDao;
 
@@ -35,10 +34,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private  UserDao userDao;
 
-
     @Override
-    public List<Teacher> list() {//查询所有老师
-        return teacherDao.list();
+    public List<User> list() {//查询所有老师
+        return userDao.list();
     }
 
     @Override
@@ -107,15 +105,16 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Teacher register(Map req) {
+    public User register(Map req) {
         String name = (String) req.get("name");
-        Teacher teacher = new Teacher(name);
-        return teacherDao.insert(teacher) > 0 ? teacher : null;
+        String openid = (String) req.get("openid");
+        User user = new User(name,openid,0,100001);
+        return userDao.insert(user) > 0 ? user : null;
     }
 
     @Override
     public List<String> findName(Long classId) {
-        return teacherDao.findName(classId);
+        return userDao.findName(classId);
     }
 
     @Override

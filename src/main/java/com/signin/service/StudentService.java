@@ -3,6 +3,7 @@ package com.signin.service;
 import com.signin.model.Class;
 import com.signin.model.SignRecord;
 import com.signin.model.Student;
+import com.signin.model.User;
 
 import java.util.List;
 import java.util.Map;
@@ -19,5 +20,5 @@ public interface StudentService {
 
     String isSign(Map<String, String> req);
 
-    Student register(Map req);
+    User register(Map req);
 }

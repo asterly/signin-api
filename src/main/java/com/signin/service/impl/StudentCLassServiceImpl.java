@@ -2,10 +2,7 @@ package com.signin.service.impl;
 
 import com.signin.dao.ClassDao;
 import com.signin.dao.StudentClassDao;
-import com.signin.dao.StudentDao;
 import com.signin.dao.UserDao;
-import com.signin.model.Class;
-import com.signin.model.User;
 import com.signin.service.StudentClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

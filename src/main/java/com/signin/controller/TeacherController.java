@@ -1,17 +1,11 @@
 package com.signin.controller;
 
 import com.signin.common.ResultData;
-import com.signin.model.Teacher;
 import com.signin.service.StudentClassService;
-import com.signin.service.StudentService;
 import com.signin.service.TeacherService;
 import com.signin.utils.UserInfoUtil;
 import io.swagger.annotations.*;
-import org.bson.codecs.pojo.annotations.BsonIgnore;
-import org.mapstruct.BeforeMapping;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,11 +21,9 @@ public class TeacherController {
     private HttpServletRequest request;
     private StudentClassService service;
     private final TeacherService teacherService;
-    private final StudentService studentService;
 
-    public TeacherController(TeacherService teacherService, StudentService studentService,HttpServletRequest request,StudentClassService service) {
+    public TeacherController(TeacherService teacherService,HttpServletRequest request,StudentClassService service) {
         this.teacherService = teacherService;
-        this.studentService = studentService;
         this.request = request;
         this.service = service;
     }

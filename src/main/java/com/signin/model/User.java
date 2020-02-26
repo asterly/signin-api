@@ -9,9 +9,19 @@ public class User {
     private Long id;
     private String name;
     private String openid;
-    private String role;
     private Integer invalid;
-    private Long roleId;
+    private Integer roleId;
+
+    public User(String name, String openid, Integer invalid, Integer roleId) {
+        this.name = name;
+        this.openid = openid;
+        this.invalid = invalid;
+        this.roleId = roleId;
+    }
+
+    public User() {
+
+    }
 
     public Long getId() {
         return id;
@@ -45,19 +55,11 @@ public class User {
         this.invalid = invalid;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public Long getRoleId() {
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Long roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 }
