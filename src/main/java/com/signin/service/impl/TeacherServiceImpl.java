@@ -61,13 +61,12 @@ public class TeacherServiceImpl implements TeacherService {
     public String openSign(Map req) {
         //1、随机生成6位数字的签到码
         String signCode = RandomSignCode.signCode();
-        List<User> userInfo = userDao.selUserByOpenID(req.get("openid").toString(),req.get("roleid").toString());
+        List<User> userInfo = userDao.selUserByOpenID(req.get("openid").toString(),req.get("roleId").toString());
         if(userInfo.size()<1){
             return "当前用户不具有发起签到的权限";
         }
         Long teacherId = userInfo.get(0).getId();
-        String classId = (String) req.get("classId");
-
+        String classId = req.get("classId").toString();
         Attendence attendence=new Attendence();
         attendence.setClassId(Long.parseLong(classId));
         //获取当前的时间搓
@@ -93,21 +92,21 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Attendence> selAttendenceByClass(Map req) {
-        int teacherId = Integer.parseInt((String) req.get("userId"));
-        int classId = Integer.parseInt((String) req.get("classId"));
+        int teacherId = Integer.parseInt(req.get("userId").toString());
+        int classId = Integer.parseInt(req.get("classId").toString());
         return attendenceDao.selAttendenceByClass(teacherId,classId);
     }
 
     @Override
     public List<SignRecord> selSignRecordByAttendence(Map req) {
-        int attendenceId = Integer.parseInt((String) req.get("attendenceId"));
+        int attendenceId = Integer.parseInt(req.get("attendenceId").toString());
         return signRecordDao.selAllRecordByAttendenceId(attendenceId);
     }
 
     @Override
     public User register(Map req) {
-        String name = (String) req.get("name");
-        String openid = (String) req.get("openid");
+        String name = req.get("name").toString();
+        String openid = req.get("openid").toString();
         User user = new User(name,openid,0,100001);
         return userDao.insert(user) > 0 ? user : null;
     }
@@ -124,7 +123,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<SignRecord> selSignRecordBySignCode(Map req) {
-        int signCode = Integer.parseInt((String) req.get("signCode"));
+        int signCode = Integer.parseInt(req.get("signCode").toString());
         int attendenceId = Integer.parseInt(attendenceDao.findAttendenceIdBySignCode(signCode).toString());
         return signRecordDao.selAllRecordByAttendenceId(attendenceId);
     }

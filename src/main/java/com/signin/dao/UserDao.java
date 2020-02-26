@@ -12,9 +12,9 @@ import java.util.Map;
 @Mapper
 public interface UserDao {
 
-    @Select("SELECT id,name,openid,role,invalid FROM `user` WHERE invalid=1 and openid=#{openid} " +
-            " and role=#{roleid}")
-    List<User> selUserByOpenID(@Param("openid") String openid,@Param("roleid")String roleid);
+    @Select("SELECT id,name,openid,role roleId,invalid FROM `user` WHERE invalid=1 and openid=#{openid} " +
+            " and role=#{roleId}")
+    List<User> selUserByOpenID(@Param("openid") String openid,@Param("roleId")String roleId);
 
     @Insert("INSERT INTO `user`(name, openid, role, invalid) VALUES(#{name}, #{openid}, #{roleId}, #{invalid})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
