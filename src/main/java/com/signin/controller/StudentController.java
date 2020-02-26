@@ -57,10 +57,10 @@ public class StudentController {
         }
     }
 
-    @GetMapping("/students")
-    @ResponseBody
-    String list() {
-        return ResultData.success(weChatUtils.getAccessToken());
+//    @GetMapping("/students")
+//    @ResponseBody
+//    String list() {
+//        return ResultData.success(weChatUtils.getAccessToken());
 //        Student student = new Student();
 //        List<Integer> records =  new ArrayList<>();
 //        records.add(0);
@@ -70,8 +70,7 @@ public class StudentController {
 //        student.setName("hello");
 //        studentRepository.save(student);
 //        return ResultData.success("hello");
-
-    }
+//    }
 
     /**
      * 学生查询自己加入的所有班级

@@ -164,6 +164,27 @@ public class TeacherController {
         }
     }
 
+//    /**
+//     * 教师端创建一个签到任务，返回6位数的签到码
+//     * @param req 前台页面传入的参数
+//     *            主要有 teacherID， classID 均为数值类型
+//     * @return
+//     */
+//    @ApiOperation("老师开启签到任务，返回6位数的签到码")
+//    @GetMapping("/teacher/attendence")
+//    @ApiImplicitParam(name = "classId",value = "发起签到班级的id",dataType = "long")
+//    public String openSignTask(@RequestParam Integer classId){
+//        try{
+//            Map req=new HashMap();
+//            req.put("classId",classId);
+//            UserInfoUtil.parseUser(request,req);
+//            return ResultData.success(teacherService.openSign(req));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return ResultData.serverError();
+//        }
+//    }
+
     /**
      * 选择班级查询该班级的所有签到
      * @param classId
