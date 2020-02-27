@@ -26,4 +26,7 @@ public interface SignRecordDao {
     @Select("select * from sign_record s,attendence a \n"+
             "where s.user_id=#{studentId} and s.attendence_id=a.id and a.class_id=#{classId} \n")
     List<Map> selRecordByStu(@Param("studentId") int studentId,@Param("classId") int classId);
+
+    @Select("select * from sign_record where attendence_id=#{attendenceId} and user_id=#{studentId}")
+    List<SignRecord> isSign(@Param("attendenceId") int attendenceId,@Param("studentId") int studentId);
 }

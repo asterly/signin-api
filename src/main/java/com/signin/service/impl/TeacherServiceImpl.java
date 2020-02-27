@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Auther: engow
@@ -33,6 +31,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Autowired
     private  UserDao userDao;
+
+    @Autowired
+    private StudentClassDao studentClassDao;
 
     @Override
     public List<User> list() {//查询所有老师
@@ -79,10 +80,8 @@ public class TeacherServiceImpl implements TeacherService {
         //写入签到码
         attendence.setSignCode(Long.parseLong(signCode));
         Long insert = attendenceDao.insert(attendence);
-
         //2、将签到码存入内存和数据库中
         RandomSignCode.setCode(teacherId+"_"+classId,attendence);
-
         //3、创建定时器，在指定时间后移除内存中的数据
         RemoveTimerTask.removeCode(teacherId+"_"+classId,time+60000L);
         //3、回写签到码
@@ -91,16 +90,32 @@ public class TeacherServiceImpl implements TeacherService {
 
 
     @Override
-    public List<Attendence> selAttendenceByClass(Map req) {
-        int teacherId = Integer.parseInt(req.get("userId").toString());
+    public List<Map> selAttendenceByClass(Map req) {
         int classId = Integer.parseInt(req.get("classId").toString());
-        return attendenceDao.selAttendenceByClass(teacherId,classId);
+        return attendenceDao.selAttendenceByClass(classId);
     }
 
     @Override
-    public List<SignRecord> selSignRecordByAttendence(Map req) {
+    public Map<String,String> selSignRecordByAttendence(Map req) {
         int attendenceId = Integer.parseInt(req.get("attendenceId").toString());
-        return signRecordDao.selAllRecordByAttendenceId(attendenceId);
+        //1.根据签到id查询对应的班级id
+        int classId = attendenceDao.findClassIdByAttendenceId(attendenceId);
+        //2.根据班级id查询该班级的所有学生id并且存入集合中
+        List<Integer> studentIds = new ArrayList<Integer>();
+        studentIds = studentClassDao.selStudentIdsByClassId(classId);
+        //3.根据每个学生的id迭代查询其名字跟是否参加签到，并将结果存入集合中
+        Map<String,String> map = new HashMap<String,String>();
+        for(Integer studentId:studentIds){
+            String name = userDao.findNameById(studentId);
+            String str = "未签到";
+            List<SignRecord> isSign = signRecordDao.isSign(attendenceId,studentId);
+            if(isSign.size()>0){
+                str = "已签到";
+            }
+            map.put(name, str);
+        }
+        //4.将集合返回
+        return map;
     }
 
     @Override
@@ -122,9 +137,26 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public List<SignRecord> selSignRecordBySignCode(Map req) {
+    public Map<String,String> selSignRecordBySignCode(Map req) {
         int signCode = Integer.parseInt(req.get("signCode").toString());
         int attendenceId = Integer.parseInt(attendenceDao.findAttendenceIdBySignCode(signCode).toString());
-        return signRecordDao.selAllRecordByAttendenceId(attendenceId);
+        //1.根据签到id查询对应的班级id
+        int classId = attendenceDao.findClassIdByAttendenceId(attendenceId);
+        //2.根据班级id查询该班级的所有学生id并且存入集合中
+        List<Integer> studentIds = new ArrayList<Integer>();
+        studentIds = studentClassDao.selStudentIdsByClassId(classId);
+        //3.根据每个学生的id迭代查询其名字跟是否参加签到，并将结果存入集合中
+        Map<String,String> map = new HashMap<String,String>();
+        for(Integer studentId:studentIds){
+            String name = userDao.findNameById(studentId);
+            String str = "未签到";
+            List<SignRecord> isSign = signRecordDao.isSign(attendenceId,studentId);
+            if(isSign.size()>0){
+                str = "已签到";
+            }
+            map.put(name, str);
+        }
+        //4.将集合返回
+        return map;
     }
 }

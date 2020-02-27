@@ -12,7 +12,7 @@ import java.util.Map;
 @Mapper
 public interface UserDao {
 
-    @Select("SELECT id,name,openid,role roleId,invalid FROM `user` WHERE invalid=1 and openid=#{openid} " +
+    @Select("SELECT id,name,openid,role roleId,invalid FROM `user` WHERE invalid=0 and openid=#{openid} " +
             " and role=#{roleId}")
     List<User> selUserByOpenID(@Param("openid") String openid,@Param("roleId")String roleId);
 
@@ -25,4 +25,7 @@ public interface UserDao {
 
     @Select("select user.name from user,class where class.id=#{classId} and teacher_id=user.id order by user.id")
     List<String> findName(Long classId);
+
+    @Select("select name from user where id=#{studentId}")
+    String findNameById(int studentId);
 }

@@ -9,6 +9,7 @@ import com.signin.utils.RandomSignCode;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,17 +81,34 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Map> findAllSignRecord(Map<String, String> req) {
-        int studentId = Integer.parseInt(req.get("userId"));
-        int classId = Integer.parseInt(req.get("classId"));
-        return signRecordDao.selRecordByStu(studentId,classId);
+    public Map<String, String> findAllSignRecord(Map req) {
+        Long studentId = (Long) (req.get("userId")) ;
+        int classId = Integer.parseInt(req.get("classId").toString());
+        //1.根据班级id查询该班级的所有签到id和时间
+        List<Map> attendences = attendenceDao.selAttendenIdsceByClass(classId);
+        //2.根据签到id查询该学生是否参加了此次签到
+        Map<String,String> map = new HashMap<String,String>();
+        for(Map attendence:attendences){
+            String str = "该次未签到";
+            SignRecord signRecord = new SignRecord();
+            Long attendenceId = (Long)(attendence.get("id"));
+            String time = attendence.get("st").toString();
+            signRecord.setAttendenceId(attendenceId);
+            signRecord.setUserId(studentId);
+            List signList = signRecordDao.selRecordByAttendenceID(signRecord);
+            if(signList.size()>0){
+                str =  "该次已签到";
+            }
+            map.put(time, str);
+        }
+        return map;
     }
 
     @Override
-    public String isSign(Map<String, String> req) {
+    public String isSign(Map req) {
         SignRecord signRecord = new SignRecord();
-        Long attendenceId = Long.parseLong(req.get("attendenceId"));
-        Long studentId = Long.parseLong(req.get("userId"));
+        Long attendenceId = (Long) (req.get("attendenceId"));
+        Long studentId = (Long) (req.get("userId"));
         signRecord.setAttendenceId(attendenceId);
         signRecord.setUserId(studentId);
         List signList = signRecordDao.selRecordByAttendenceID(signRecord);

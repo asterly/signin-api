@@ -158,7 +158,7 @@ public class StudentController {
     }
 
     /**
-     * 根据签到id和学生id查询学生是否参加该次签到
+     * 根据签到id查询学生是否参加该次签到
      * @param attendenceId
      * @return
      */

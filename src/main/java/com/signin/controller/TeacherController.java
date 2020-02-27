@@ -169,10 +169,10 @@ public class TeacherController {
      * @param classId
      * @return
      */
-    @ApiOperation("选择班级查询该班级的所有签到")
+    @ApiOperation("选择班级查询该班级的所有签到并显示各签到已签到人数")
     @GetMapping("/teacher/attendences")
     @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")
-    public String selAttendenceByClass(@RequestParam("classId") Long classId){
+    public String selAttendenceByClass(@RequestParam("classId") Integer classId){
         try{
             Map req = new HashMap();
             req.put("classId", classId);

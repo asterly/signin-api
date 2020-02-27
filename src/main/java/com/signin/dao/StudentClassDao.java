@@ -41,7 +41,10 @@ public interface StudentClassDao {
     List<Map> selValidStudentInfo(@Param("openid") String openid,@Param("classId") Long classId);
 
     @Select("select b.id,b.name,b.teacher_id,b.create_time\n" +
-            " from student_class a ,class b where b.invalid=1 and a.class_id=b.id \n"+
+            " from student_class a ,class b where b.invalid=0 and a.class_id=b.id \n"+
             "and a.student_id=#{studentId}")
     List<Map> listClassesByStudentId(Long studentId);
+
+    @Select("select student_id from student_class where class_id=#{classId}")
+    List<Integer> selStudentIdsByClassId(int classId);
 }
