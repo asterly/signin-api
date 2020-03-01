@@ -33,4 +33,6 @@ public interface TeacherService {
     List<Class> selClassInfo(Long classId);
 
     Map<String,String> selSignRecordBySignCode(Map req);
+
+    String selStudent(Map req);
 }

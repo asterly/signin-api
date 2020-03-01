@@ -27,5 +27,5 @@ public interface UserDao {
     List<String> findName(Long classId);
 
     @Select("select name from user where id=#{studentId}")
-    String findNameById(int studentId);
+    String findNameById(int studentId);//根据id查询姓名
 }

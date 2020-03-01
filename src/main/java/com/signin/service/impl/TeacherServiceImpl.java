@@ -4,6 +4,7 @@ import com.signin.dao.*;
 import com.signin.model.*;
 import com.signin.model.Class;
 import com.signin.service.TeacherService;
+import com.signin.utils.Pinyin4j;
 import com.signin.utils.RandomSignCode;
 import com.signin.utils.RemoveTimerTask;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -158,5 +159,23 @@ public class TeacherServiceImpl implements TeacherService {
         }
         //4.将集合返回
         return map;
+    }
+
+    @Override
+    public String selStudent(Map req) {
+        int classId = Integer.parseInt(req.get("classId").toString());
+        //1.根据班级id查询该班级的所有学生id并且存入集合中
+        List<Integer> studentIds = new ArrayList<Integer>();
+        studentIds = studentClassDao.selStudentIdsByClassId(classId);
+        //2.计算学生的人数并且生成学生数以内的随机数
+        int size = studentIds.size();
+        Random random = new Random();
+        int num = random.nextInt(size);
+        //3.根据随机数得到被挑选出来的学生id
+        int studentId = studentIds.get(num);
+        //4.根据学生id返回学生姓名
+        String name = userDao.findNameById(studentId);
+        String pinYin = Pinyin4j.getAllPinyin(name);
+        return name.concat(pinYin);
     }
 }

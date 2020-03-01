@@ -146,6 +146,26 @@ public class TeacherController {
     }
 
     /**
+     * 老师选择班级，随机挑选一名学生起来回答问题
+     * @param classId
+     * @return
+     */
+    @ApiOperation("老师选择班级，随机挑选一名学生起来回答问题")
+    @GetMapping("/teacher/sel")
+    @ApiImplicitParam(name = "classId",value = "选择班级的id")
+    public String selStudent(@RequestParam("classId") Integer classId){
+        try{
+            Map req=new HashMap();
+            req.put("classId",classId);
+            UserInfoUtil.parseUser(request,req);
+            return ResultData.success(teacherService.selStudent(req));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultData.serverError();
+        }
+    }
+
+    /**
      * 教师端创建一个签到任务，返回6位数的签到码
      * @param req 前台页面传入的参数
      *            主要有 teacherID， classID 均为数值类型
