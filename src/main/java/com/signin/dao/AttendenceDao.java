@@ -17,7 +17,9 @@ public interface AttendenceDao {
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(Attendence c);
 
-    @Select("select a.id,count(b.id) signedNum from attendence a left JOIN sign_record b on a.id=b.attendence_id \n" +
+
+    @Select("select a.start_time time,count(state=1 or null) signedNum,count(state=0 or null) unsignedNum \n"+
+            "from attendence a left JOIN sign_record b on a.id=b.attendence_id \n" +
             "where a.class_id=#{classId} group by a.id \n")
     List<Map> selAttendenceByClass(@Param("classId") int classId);
 
@@ -27,13 +29,11 @@ public interface AttendenceDao {
     @Select("select user_id from attendence where sign_code=#{signCode}")
     Long findTeacherIdBySignCode(int signCode);
 
+    @Select("select start_time time,state from attendence a left join sign_record b \n" +
+            "on a.id=b.attendence_id \n" +
+            "where a.class_id=#{classId} and b.user_id=#{studentId} \n")
+    List<Map> findAllSignRecord(@Param("classId") int classId,@Param("studentId") int studentId);
+
     @Select("select id from attendence where sign_code=#{signCode}")
-    Long findAttendenceIdBySignCode(int signCode);
-
-    //根据签到id查询对应的班级id
-    @Select("select class_id from attendence where id=#{attendenceId}")
-    int findClassIdByAttendenceId(int attendenceId);
-
-    @Select("select id,start_time st from attendence where class_id=#{classId} order by id")
-    List<Map> selAttendenIdsceByClass(int classId);
+    List<Map> check(String signCode);
 }

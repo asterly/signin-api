@@ -18,9 +18,6 @@ public class StudentCLassServiceImpl implements StudentClassService {
     private StudentClassDao studentClassDao;
 
     @Autowired
-    private UserDao userDao;
-
-    @Autowired
     private ClassDao classDao;
 
     @Override

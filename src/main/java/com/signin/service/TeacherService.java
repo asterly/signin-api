@@ -24,7 +24,7 @@ public interface TeacherService {
 
     List<Map> selAttendenceByClass(Map req);
 
-    Map<String,String> selSignRecordByAttendence(Map req);
+    List<Map> selSignRecordByAttendence(Map req);
 
     User register(Map req);
 
@@ -32,7 +32,7 @@ public interface TeacherService {
 
     List<Class> selClassInfo(Long classId);
 
-    Map<String,String> selSignRecordBySignCode(Map req);
+    List<Map> selSignRecordBySignCode(Map req);
 
     String selStudent(Map req);
 }

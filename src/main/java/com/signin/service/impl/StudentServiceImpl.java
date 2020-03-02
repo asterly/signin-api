@@ -9,6 +9,7 @@ import com.signin.utils.RandomSignCode;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,80 +40,68 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public String signIN(Map<String, Object> req) {
         String signCode = req.get("signCode").toString();
-        String teacherID = attendenceDao.findTeacherIdBySignCode(Integer.parseInt(signCode)).toString();
-        String classID = attendenceDao.findClassIdBySignCode(Integer.parseInt(signCode)).toString();
-        String userID = req.get("userId").toString();
-        //读取内存中的签到目标对象
-        Attendence attendence=null;
-        try {
-            attendence =(Attendence) RandomSignCode.getCode(teacherID + "_" + classID);
-        }catch (Exception e){
-            return "签到失败，签到结束";
-        }
-
-        if(attendence==null){
-            return "签到失败，签到结束";
-        }
-
-        if(signCode.equalsIgnoreCase(attendence.getSignCode().toString())){
-            SignRecord signRecord = new SignRecord();
-            signRecord.setAttendenceId(attendence.getId());
-            signRecord.setUserId(Long.parseLong(userID));
-
-            //判断是否已经签到
-            List signList = signRecordDao.selRecordByAttendenceID(signRecord);
-            if(signList.size()>0){
-                return "您已经签到过了";
+        List<Map> check = attendenceDao.check(signCode);
+        if(check.size()>0){
+            String teacherID = attendenceDao.findTeacherIdBySignCode(Integer.parseInt(signCode)).toString();
+            String classID = attendenceDao.findClassIdBySignCode(Integer.parseInt(signCode)).toString();
+            String userID = req.get("userId").toString();
+            //读取内存中的签到目标对象
+            Attendence attendence=null;
+            try {
+                attendence =(Attendence) RandomSignCode.getCode(teacherID + "_" + classID);
+            }catch (Exception e){
+                return "签到失败，签到结束";
             }
-            //入库到签到清单表
-            Long insertCode = signRecordDao.insert(signRecord);
-            if(insertCode>0){
-                return "签到成功！";
+            if(attendence==null){
+                return "签到失败，签到结束";
             }
-            return "签到失败";
+            if(signCode.equalsIgnoreCase(attendence.getSignCode().toString())){
+                SignRecord signRecord = new SignRecord();
+                signRecord.setAttendenceId(attendence.getId());
+                signRecord.setUserId(Long.parseLong(userID));
+                signRecord.setState(0);
+                //判断是否已经签到
+                List signList = signRecordDao.selRecordByAttendenceID(signRecord);
+                if(signList.size()>0){
+                    return "您已经签到过了";
+                }
+                //入库到签到清单表
+                Long insertCode = signRecordDao.insert(signRecord);
+                if(insertCode>0){
+                    return "签到成功！";
+                }
+                return "签到失败";
+            }
+            return "签到失败！签到码错误";
+        } else{
+            return "签到码错误";
         }
-        return "签到失败！签到码错误";
-    }
-
-    public String studentJoinClass(Map<String, String> req){
-        String classId = req.get("classId");
-
-        return "";
     }
 
     @Override
-    public Map<String, String> findAllSignRecord(Map req) {
-        Long studentId = (Long) (req.get("userId")) ;
+    public List<Map> findAllSignRecord(Map req) {
+        List<Map> list = new ArrayList<Map>();
         int classId = Integer.parseInt(req.get("classId").toString());
-        //1.根据班级id查询该班级的所有签到id和时间
-        List<Map> attendences = attendenceDao.selAttendenIdsceByClass(classId);
-        //2.根据签到id查询该学生是否参加了此次签到
-        Map<String,String> map = new HashMap<String,String>();
-        for(Map attendence:attendences){
-            String str = "该次未签到";
-            SignRecord signRecord = new SignRecord();
-            Long attendenceId = (Long)(attendence.get("id"));
-            String time = attendence.get("st").toString();
-            signRecord.setAttendenceId(attendenceId);
-            signRecord.setUserId(studentId);
-            List signList = signRecordDao.selRecordByAttendenceID(signRecord);
-            if(signList.size()>0){
-                str =  "该次已签到";
+        int studentId = Integer.parseInt(req.get("userId").toString());
+        list = attendenceDao.findAllSignRecord(classId,studentId);
+        //遍历结果，根据签到状态数字将其改为对应的签到状态
+        for(Map map:list){
+            int state = Integer.parseInt(map.get("state").toString());
+            if(state == 0){
+                map.put("state", "未签到");
+            } else{
+                map.put("state", "已签到");
             }
-            map.put(time, str);
         }
-        return map;
+        return list;
     }
 
     @Override
     public String isSign(Map req) {
-        SignRecord signRecord = new SignRecord();
-        Long attendenceId = (Long) (req.get("attendenceId"));
-        Long studentId = (Long) (req.get("userId"));
-        signRecord.setAttendenceId(attendenceId);
-        signRecord.setUserId(studentId);
-        List signList = signRecordDao.selRecordByAttendenceID(signRecord);
-        if(signList.size()>0){
+        int attendenceId = Integer.parseInt (req.get("attendenceId").toString());
+        int studentId = Integer.parseInt (req.get("userId").toString());
+        int state = signRecordDao.selSingleSignRecord(attendenceId,studentId);
+        if(state == 1){
             return "该次已签到";
         }
         return "该次未签到";

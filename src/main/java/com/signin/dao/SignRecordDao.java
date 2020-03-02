@@ -13,7 +13,7 @@ import java.util.Map;
 @Component("signRecordDao")
 @Mapper
 public interface SignRecordDao {
-    @Insert("INSERT INTO `sign_record` ( `user_id`, `attendence_id`) VALUES(#{userId}, #{attendenceId})")
+    @Insert("INSERT INTO sign_record (user_id, attendence_id,state) VALUES(#{userId}, #{attendenceId},#{state})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")
     Long insert(SignRecord c);
 
@@ -29,4 +29,15 @@ public interface SignRecordDao {
 
     @Select("select * from sign_record where attendence_id=#{attendenceId} and user_id=#{studentId}")
     List<SignRecord> isSign(@Param("attendenceId") int attendenceId,@Param("studentId") int studentId);
+
+    @Insert("Insert into sign_record(user_id,attendence_id,state) \n"+
+            "select student_id as user_id,#{attendenceId} as attendence_id,0 as state \n"+
+            "from student_class where class_id=#{classId} \n")
+    Long addAllStudents(@Param("classId") int classId,@Param("attendenceId") int attendenceId);
+
+    @Select("select name,state from user,sign_record where user_id=user.id and attendence_id=#{attendenceId}")
+    List<Map> selSignRecordByAttendenceID(int attendenceId);
+
+    @Select("select state from sign_record where attendence_id=#{attendenceId} and user_id=#{studentId}")
+    int selSingleSignRecord(@Param("attendenceId") int attendenceId,@Param("studentId") int studentId);
 }

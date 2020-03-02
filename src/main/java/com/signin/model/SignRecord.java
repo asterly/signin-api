@@ -10,6 +10,24 @@ public class SignRecord {
     private String openid;
     private Long attendenceId;
     private Timestamp signTime;
+    private Integer state;
+
+    public SignRecord() {
+    }
+
+    public SignRecord(Long userId, Long attendenceId, Integer state) {
+        this.userId = userId;
+        this.attendenceId = attendenceId;
+        this.state = state;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
 
     public void setId(Long id) {
         this.id = id;

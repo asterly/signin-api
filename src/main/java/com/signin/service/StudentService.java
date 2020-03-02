@@ -16,7 +16,7 @@ import java.util.Map;
 public interface StudentService {
     String signIN(Map<String, Object> req);
 
-    Map<String, String> findAllSignRecord(Map req);
+    List<Map> findAllSignRecord(Map req);
 
     String isSign(Map req);
 

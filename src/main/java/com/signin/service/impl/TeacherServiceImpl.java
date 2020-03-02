@@ -9,7 +9,6 @@ import com.signin.utils.RandomSignCode;
 import com.signin.utils.RemoveTimerTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -61,15 +60,35 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public String openSign(Map req) {
-        //1、随机生成6位数字的签到码
-        String signCode = RandomSignCode.signCode();
         List<User> userInfo = userDao.selUserByOpenID(req.get("openid").toString(),req.get("roleId").toString());
         if(userInfo.size()<1){
             return "当前用户不具有发起签到的权限";
         }
         Long teacherId = userInfo.get(0).getId();
         String classId = req.get("classId").toString();
-        Attendence attendence=new Attendence();
+        //读取内存中的签到目标对象
+        Attendence attendence = null;
+        try {
+            attendence = (Attendence) RandomSignCode.getCode(teacherId + "_" + classId);
+        }catch (Exception e){
+            return "读取签到对象失败";
+        }
+        if(attendence != null){
+            return "请勿在一分钟内重复发起签到";
+        }
+        //生成不重复的6位数字签到码
+        String signCode = null;
+        String code = null;
+        while(signCode == null){
+            code = RandomSignCode.signCode();
+            List<Map> result = attendenceDao.check(code);
+            if(result.size()>0){
+                signCode = null;
+            } else{
+                signCode = code;
+            }
+        }
+        attendence=new Attendence();
         attendence.setClassId(Long.parseLong(classId));
         //获取当前的时间搓
         long time = new Date().getTime();
@@ -81,12 +100,24 @@ public class TeacherServiceImpl implements TeacherService {
         //写入签到码
         attendence.setSignCode(Long.parseLong(signCode));
         Long insert = attendenceDao.insert(attendence);
-        //2、将签到码存入内存和数据库中
-        RandomSignCode.setCode(teacherId+"_"+classId,attendence);
-        //3、创建定时器，在指定时间后移除内存中的数据
-        RemoveTimerTask.removeCode(teacherId+"_"+classId,time+60000L);
-        //3、回写签到码
-        return signCode;
+        if(insert>0){
+            //1.根据签到码获取签到id
+            String attendenceId = attendenceDao.check(signCode).get(0).get("id").toString();
+            //2.将classId对应班级的所有学生添加到签到记录表中
+            Long add = signRecordDao.addAllStudents(Integer.parseInt(classId),Integer.parseInt(attendenceId));
+            if(add>0){
+                //将签到码存入内存和数据库中
+                RandomSignCode.setCode(teacherId+"_"+classId,attendence);
+                //创建定时器，在指定时间后移除内存中的数据
+                RemoveTimerTask.removeCode(teacherId+"_"+classId,time+60000L);
+                //回写签到码
+                return signCode;
+            } else{
+                return "该班级没有学生";
+            }
+        } else{
+            return "发起签到失败";
+        }
     }
 
 
@@ -97,26 +128,22 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Map<String,String> selSignRecordByAttendence(Map req) {
+    public List<Map> selSignRecordByAttendence(Map req) {
+        List<Map> list = new ArrayList<Map>();
         int attendenceId = Integer.parseInt(req.get("attendenceId").toString());
-        //1.根据签到id查询对应的班级id
-        int classId = attendenceDao.findClassIdByAttendenceId(attendenceId);
-        //2.根据班级id查询该班级的所有学生id并且存入集合中
-        List<Integer> studentIds = new ArrayList<Integer>();
-        studentIds = studentClassDao.selStudentIdsByClassId(classId);
-        //3.根据每个学生的id迭代查询其名字跟是否参加签到，并将结果存入集合中
-        Map<String,String> map = new HashMap<String,String>();
-        for(Integer studentId:studentIds){
-            String name = userDao.findNameById(studentId);
-            String str = "未签到";
-            List<SignRecord> isSign = signRecordDao.isSign(attendenceId,studentId);
-            if(isSign.size()>0){
-                str = "已签到";
+        //根据签到id查看对应的签到详情
+        list = signRecordDao.selSignRecordByAttendenceID(attendenceId);
+        //遍历结果，根据签到状态数字将其改为对应的签到状态
+        for(Map map:list){
+            int state = Integer.parseInt(map.get("state").toString());
+            if(state == 0){
+                map.put("state", "未签到");
+            } else{
+                map.put("state", "已签到");
             }
-            map.put(name, str);
         }
         //4.将集合返回
-        return map;
+        return list;
     }
 
     @Override
@@ -138,27 +165,33 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public Map<String,String> selSignRecordBySignCode(Map req) {
-        int signCode = Integer.parseInt(req.get("signCode").toString());
-        int attendenceId = Integer.parseInt(attendenceDao.findAttendenceIdBySignCode(signCode).toString());
-        //1.根据签到id查询对应的班级id
-        int classId = attendenceDao.findClassIdByAttendenceId(attendenceId);
-        //2.根据班级id查询该班级的所有学生id并且存入集合中
-        List<Integer> studentIds = new ArrayList<Integer>();
-        studentIds = studentClassDao.selStudentIdsByClassId(classId);
-        //3.根据每个学生的id迭代查询其名字跟是否参加签到，并将结果存入集合中
-        Map<String,String> map = new HashMap<String,String>();
-        for(Integer studentId:studentIds){
-            String name = userDao.findNameById(studentId);
-            String str = "未签到";
-            List<SignRecord> isSign = signRecordDao.isSign(attendenceId,studentId);
-            if(isSign.size()>0){
-                str = "已签到";
+    public List<Map> selSignRecordBySignCode(Map req) {
+        List<Map> list = new ArrayList<Map>();
+        String signCode = req.get("signCode").toString();
+        Map map1 = new HashMap();
+        //判断签到码是否正确并根据签到码查找签到id
+        List<Map> result = attendenceDao.check(signCode);
+        if(result.size()>0){
+            int attendenceId = Integer.parseInt(result.get(0).get("id").toString());
+            //根据签到id查看对应的签到详情
+            list = signRecordDao.selSignRecordByAttendenceID(attendenceId);
+            //遍历结果，根据签到状态数字将其改为对应的签到状态
+            for(Map map:list){
+                int state = Integer.parseInt(map.get("state").toString());
+                if(state == 0){
+                    map.put("state", "未签到");
+                } else{
+                    map.put("state", "已签到");
+                }
             }
-            map.put(name, str);
+        } else{
+            String str = "result";
+            String value = "签到码错误";
+            map1.put(str, value);
+            list.add(map1);
         }
-        //4.将集合返回
-        return map;
+        //返回结果
+        return list;
     }
 
     @Override

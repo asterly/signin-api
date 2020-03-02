@@ -38,7 +38,9 @@ public class TeacherController {
     @ApiImplicitParam(name = "name",value = "老师姓名",dataType = "String")
     public String register(@RequestBody Map req){
         try{
+            String name = req.get("name").toString();
             UserInfoUtil.parseUser(request,req);
+            req.put("name", name);
             return ResultData.success(teacherService.register(req));
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,12 +186,13 @@ public class TeacherController {
         }
     }
 
+
     /**
      * 选择班级查询该班级的所有签到
      * @param classId
      * @return
      */
-    @ApiOperation("选择班级查询该班级的所有签到并显示各签到已签到人数")
+    @ApiOperation("选择班级查询该班级的所有签到并显示各签到具体人数")
     @GetMapping("/teacher/attendences")
     @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")
     public String selAttendenceByClass(@RequestParam("classId") Integer classId){

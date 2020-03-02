@@ -49,7 +49,9 @@ public class StudentController {
     @ApiImplicitParam(name = "name",value = "学生姓名",dataType = "String")
     public String register(@RequestBody Map req){
         try{
+            String name = req.get("name").toString();
             UserInfoUtil.parseUser(request,req);
+            req.put("name", name);
             return ResultData.success(studentService.register(req));
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +140,7 @@ public class StudentController {
     }
 
     /**
-     * 根据班级id和学生id查询学生在该班级所有的签到记录
+     * 根据班级id查询学生在该班级所有的签到记录
      * @param classId
      * @return
      */
