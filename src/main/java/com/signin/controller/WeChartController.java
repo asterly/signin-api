@@ -2,11 +2,13 @@ package com.signin.controller;
 
 import com.signin.model.User;
 import com.signin.model.WeixinOauth2Token;
+import com.signin.service.UserInfoService;
 import com.signin.utils.UserInfoUtil;
 import com.signin.utils.WeChatUtils;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,9 @@ import java.io.PrintWriter;
 @Api(tags = {"微信接口相关"})
 @RestController
 public class WeChartController {
+
+    @Autowired
+    UserInfoService userInfoService;
 
     private static Logger logger= LoggerFactory.getLogger(WeChartController.class);
 
@@ -78,7 +83,7 @@ public class WeChartController {
                 logger.info("回调返回的accessToken:" + accessToken + ",openId:"
                         + openId);
                 UserInfoUtil userInfoUtil=new UserInfoUtil();
-                User user = userInfoUtil.ParseUserByOpenID(openId);
+                User user = userInfoService.getUser(openId,"");
                 //
                 request.getSession().setAttribute("userinfo",user);
                 // 设置要传递的参数
