@@ -66,13 +66,13 @@ public class UserInfoUtil {
     public  User ParseUser(){
         WeixinOauth2Token oauth2AccessToken = new WeChatUtils().getOauth2AccessToken("");
         String openId = oauth2AccessToken.getOpenId();
-        List<User> users = userDao.selUserByOpenID(openId,"100003");
+        List<User> users = userDao.selUserByOpenID(openId);
         return users.get(0);
     }
 
 
     public  User ParseUserByOpenID(String openid ){
-        List<User> users = userDao.selUserByOpenID(openid,"100003");
+        List<User> users = userDao.selUserByOpenID(openid);
         return users.get(0);
     }
 

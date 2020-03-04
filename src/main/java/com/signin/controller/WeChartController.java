@@ -83,7 +83,7 @@ public class WeChartController {
                 logger.info("回调返回的accessToken:" + accessToken + ",openId:"
                         + openId);
                 UserInfoUtil userInfoUtil=new UserInfoUtil();
-                User user = userInfoService.getUser(openId,"");
+                User user = userInfoService.getUser(openId);
                 //
                 request.getSession().setAttribute("userinfo",user);
                 // 设置要传递的参数

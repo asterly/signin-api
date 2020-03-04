@@ -12,9 +12,8 @@ import java.util.Map;
 @Mapper
 public interface UserDao {
 
-    @Select("SELECT id,name,openid,role roleId,invalid FROM `user` WHERE invalid=0 and openid=#{openid} " +
-            " and role=#{roleId}")
-    List<User> selUserByOpenID(@Param("openid") String openid,@Param("roleId")String roleId);
+    @Select("SELECT id,name,openid,role roleId,invalid FROM `user` WHERE invalid=0 and openid=#{openid}")
+    List<User> selUserByOpenID(@Param("openid") String openid);
 
     @Insert("INSERT INTO `user`(name, openid, role, invalid) VALUES(#{name}, #{openid}, #{roleId}, #{invalid})")
     @Options(useGeneratedKeys=true, keyProperty="id", keyColumn="id")

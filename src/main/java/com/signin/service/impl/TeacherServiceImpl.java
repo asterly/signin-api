@@ -60,7 +60,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public String openSign(Map req) {
-        List<User> userInfo = userDao.selUserByOpenID(req.get("openid").toString(),req.get("roleId").toString());
+        List<User> userInfo = userDao.selUserByOpenID(req.get("openid").toString());
         if(userInfo.size()<1){
             return "当前用户不具有发起签到的权限";
         }

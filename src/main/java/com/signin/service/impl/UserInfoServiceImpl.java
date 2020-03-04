@@ -12,8 +12,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     private UserDao userDao;
 
     @Override
-    public User getUser(String openid,String roleid) {
-
-        return userDao.selUserByOpenID(openid,roleid).get(0);
+    public User getUser(String openid) {
+        return userDao.selUserByOpenID(openid).get(0);
     }
 }

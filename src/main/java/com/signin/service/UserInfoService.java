@@ -4,6 +4,6 @@ import com.signin.model.User;
 
 public interface UserInfoService {
 
-    User getUser(String openid,String roleid);
+    User getUser(String openid);
 
 }
