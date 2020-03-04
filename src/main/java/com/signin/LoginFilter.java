@@ -1,6 +1,7 @@
 package com.signin;
 
 
+import com.signin.common.Constants;
 import com.signin.model.User;
 import com.signin.model.WeixinOauth2Token;
 import com.signin.utils.UserInfoUtil;
@@ -45,17 +46,17 @@ public class LoginFilter implements Filter {
             User userInfo = (User) session.getAttribute("userInfo");
             if(userInfo==null){
                //本地调试
-                User user=new User();
-                user.setId(100001L);
-                user.setInvalid(0);
-                user.setName("测试人员");
-                user.setOpenid("4937BC8F45C794856AC265A85D003173");
-                user.setRoleId(100001);
-                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
+//                User user=new User();
+//                user.setId(100001L);
+//                user.setInvalid(0);
+//                user.setName("测试人员");
+//                user.setOpenid("4937BC8F45C794856AC265A85D003173");
+//                user.setRoleId(100001);
+//                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
 
-                //生产环境使用
-                user = new UserInfoUtil().ParseUser();
-                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
+                //获取微信code
+                res.sendRedirect(Constants.WECHART_AUTHER_URL);
+
 
             }
 
