@@ -27,4 +27,7 @@ public interface UserDao {
 
     @Select("select name from user where id=#{studentId}")
     String findNameById(int studentId);//根据id查询姓名
+
+    @Insert("insert into user(openid) values(#{openid})")
+    Long insertOpenid(String openid);
 }

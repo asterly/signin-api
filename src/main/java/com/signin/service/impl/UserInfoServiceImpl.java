@@ -6,6 +6,8 @@ import com.signin.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
     @Autowired
@@ -13,6 +15,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public User getUser(String openid) {
-        return userDao.selUserByOpenID(openid).get(0);
+        List<User> list =  userDao.selUserByOpenID(openid);
+        if(list.size() == 0){
+            userDao.insertOpenid(openid);
+        }
+        return list.get(0);
     }
 }
