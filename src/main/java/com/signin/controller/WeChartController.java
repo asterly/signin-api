@@ -84,7 +84,12 @@ public class WeChartController {
                         + openId);
                 UserInfoUtil userInfoUtil=new UserInfoUtil();
                 User user = userInfoService.getUser(openId);
-                //
+
+                if(user==null){
+                    response.sendRedirect("重定向的地址");
+                    return;
+                }
+
                 request.getSession().setAttribute("userinfo",user);
                 // 设置要传递的参数
                 request.getSession().setAttribute("weixinOauth2Token", weixinOauth2Token);

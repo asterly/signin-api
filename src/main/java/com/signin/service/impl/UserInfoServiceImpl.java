@@ -15,10 +15,9 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     @Override
     public User getUser(String openid) {
-        List<User> list =  userDao.selUserByOpenID(openid);
-        if(list.size() == 0){
-            userDao.insertOpenid(openid);
-        }
-        return list.get(0);
+        return userDao.selUserOpenID(openid);
     }
+
+
+
 }

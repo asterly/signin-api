@@ -30,4 +30,8 @@ public interface UserDao {
 
     @Insert("insert into user(openid) values(#{openid})")
     Long insertOpenid(String openid);
+
+    @Select("SELECT id,name,openid,role roleId,invalid FROM `user` WHERE invalid=0 and openid=#{openid}")
+    User selUserOpenID(@Param("openid") String openid);
+
 }
