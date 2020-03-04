@@ -7,6 +7,8 @@ package com.signin.common;
  */
 public interface Constants {
     // 微信公众平台-心溪流声
+//    String APPID = "wx3faac60b00aca54f";
+//    String APPSECRET = "8bed2a4ae3b32d693068de08b1d30fb7";
     String APPID = "wxb3c22ba36aae943c";
     String APPSECRET = "f3c70f4323e107a46a5894255722edc5";
 

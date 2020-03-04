@@ -56,7 +56,6 @@ public class UserInfoUtil {
             params.put("name", userInfo.getName());
             params.put("roleId",userInfo.getRoleId());
         }
-
         return userInfo;
     }
 

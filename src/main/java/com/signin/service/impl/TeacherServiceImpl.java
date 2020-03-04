@@ -185,9 +185,9 @@ public class TeacherServiceImpl implements TeacherService {
                 }
             }
         } else{
-            String str = "result";
-            String value = "签到码错误";
-            map1.put(str, value);
+            String name = "result";
+            String state = "签到码错误";
+            map1.put(name, state);
             list.add(map1);
         }
         //返回结果

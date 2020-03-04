@@ -15,7 +15,7 @@ public class Class {
     private Long parent;
     private Long teacherId;
     private Integer invalid;
-    @JSONField(format="yyyy-MM-dd")
+    @JSONField(format="yyyy-MM-dd hh:mm:ss")
     private Timestamp createTime;
     private Long joinCode;
 

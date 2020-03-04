@@ -37,7 +37,6 @@ public class RemoveTimerTask extends TimerTask {
 
     @Override
     public void run() {
-
         if(RandomSignCode.codeMap.size()<0){
             return;
         }
@@ -45,7 +44,6 @@ public class RemoveTimerTask extends TimerTask {
         RandomSignCode.codeMap.remove(this.codeKey);
         logger.debug(this.codeKey);
         //System.out.println(this.codeKey);
-
     }
 
     public static void removeCode(String codekey,Long excuteTime){

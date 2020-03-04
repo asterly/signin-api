@@ -16,15 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Api(tags = {"微信接口相关"})
 @RestController
-public class WeChartCongtroller {
+public class WeChartController {
 
-    private static Logger logger= LoggerFactory.getLogger(WeChartCongtroller.class);
+    private static Logger logger= LoggerFactory.getLogger(WeChartController.class);
 
 
     /**

@@ -1,5 +1,6 @@
 package com.signin.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.springframework.context.annotation.Description;
 
 import java.sql.Timestamp;
@@ -13,7 +14,9 @@ import java.sql.Timestamp;
 public class Attendence {
     private Long id;
     private String name;
+    @JSONField(format="yyyy-MM-dd hh:mm:ss")
     private Timestamp startTime;
+    @JSONField(format="yyyy-MM-dd hh:mm:ss")
     private Timestamp endTime;
     private Long userId;
     private Long classId;
