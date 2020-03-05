@@ -1,5 +1,6 @@
 package com.signin.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.signin.model.User;
 import com.signin.model.WeixinOauth2Token;
 import com.signin.service.UserInfoService;
@@ -18,6 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
 
 @Api(tags = {"微信接口相关"})
 @RestController
@@ -61,6 +65,14 @@ public class WeChartController {
     public void wechartCallback(HttpServletRequest request, HttpServletResponse response){
             logger.debug(" start to excute wechart callback");
         try {
+
+            Enumeration enu = request.getParameterNames();
+
+            while (enu.hasMoreElements()) {
+                String paraName = (String) enu.nextElement();
+                System.out.println(paraName + ": " + request.getParameter(paraName));
+
+            }
             request.setCharacterEncoding("utf-8");
             response.setCharacterEncoding("utf-8");
 
@@ -90,7 +102,7 @@ public class WeChartController {
                     return;
                 }
 
-                request.getSession().setAttribute("userinfo",user);
+                request.getSession().setAttribute("userInfo",user);
                 // 设置要传递的参数
                 request.getSession().setAttribute("weixinOauth2Token", weixinOauth2Token);
                 request.getSession().setAttribute("state", state);

@@ -22,10 +22,10 @@ public interface Constants {
     String RESOURCE_URL = "https://resource.wuhansoftware.com/itrip/";
 
     //项目回调地址 nat app authtoken 	2b440fc2b5d2ecf3
-    String CALLBACK_URL="http://signapi.natapp1.cc/v1/api/wechart/callback";
+    String CALLBACK_URL="http://signapi2.natapp1.cc/v1/api/wechart/callback";
 
     //查询微信code
-    String WECHART_AUTHER_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+Constants.APPID+"&redirect_uri="+Constants.CALLBACK_URL+"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+    String WECHART_AUTHER_URL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+Constants.APPID+"&redirect_uri="+Constants.CALLBACK_URL+"&response_type=code&scope=snsapi_userinfo&state=wechartcallback#wechat_redirect";
 
     //查询微信OPENID
     String WECHART_OPENID_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+Constants.APPID+"&secret="+Constants.APPSECRET+"&code=REQUEST_CODE&grant_type=authorization_code";

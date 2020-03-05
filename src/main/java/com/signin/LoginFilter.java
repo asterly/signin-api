@@ -37,12 +37,14 @@ public class LoginFilter implements Filter {
         HttpSession session = req.getSession(true);
 
         String ipAddress = WeChatUtils.getIpAddress(req);
+
+        String state = req.getParameter("state");
+        destroy();
         System.out.println(ipAddress);
         String path = req.getRequestURI();
         System.out.println("路径："+path);
         // 登陆页面无需过滤
-        if (Constants.open_weixin_qq_com.equalsIgnoreCase(ipAddress)||path.indexOf("ssologin")>-1||path.indexOf("csss")>-1
-                || (req.getQueryString() !=null &&req.getQueryString().indexOf("methodName=login")>-1)) {
+        if ("wechartcallback".equalsIgnoreCase(state)|| (req.getQueryString() !=null &&req.getQueryString().indexOf("methodName=login")>-1)) {
             chain.doFilter(request, response);
 
 
