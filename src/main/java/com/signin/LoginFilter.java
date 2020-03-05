@@ -5,6 +5,7 @@ import com.signin.common.Constants;
 import com.signin.model.User;
 import com.signin.model.WeixinOauth2Token;
 import com.signin.utils.UserInfoUtil;
+import com.signin.utils.WeChatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -35,12 +36,16 @@ public class LoginFilter implements Filter {
         res.setHeader("P3P","CP=CAO PSA OUR");
         HttpSession session = req.getSession(true);
 
+        String ipAddress = WeChatUtils.getIpAddress(req);
+        System.out.println(ipAddress);
         String path = req.getRequestURI();
-        logger.debug("路径："+path);
+        System.out.println("路径："+path);
         // 登陆页面无需过滤
-        if (path.indexOf("WxTokenAuthServlet.do") > -1 ||path.indexOf("ssologin")>-1||path.indexOf("csss")>-1
+        if (Constants.open_weixin_qq_com.equalsIgnoreCase(ipAddress)||path.indexOf("ssologin")>-1||path.indexOf("csss")>-1
                 || (req.getQueryString() !=null &&req.getQueryString().indexOf("methodName=login")>-1)) {
             chain.doFilter(request, response);
+
+
         } else {
 
             User userInfo = (User) session.getAttribute("userInfo");
