@@ -1,7 +1,9 @@
 package com.signin.common;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import java.util.Map;
 
@@ -68,10 +70,14 @@ public class ResultData {
     }
 
     public static String success(Object data) {
-        return JSONObject.toJSONString(new ResultData(
+        return JSON.toJSONStringWithDateFormat(new ResultData(
                 ResultStatus.SUCCESS.getCode(),
                 ResultStatus.SUCCESS.getMessage(),
-                data));
+                data),"yyyy-MM-dd HH:mm:ss", SerializerFeature.WriteDateUseDateFormat);
+//        return JSONObject.toJSONString(new ResultData(
+//                ResultStatus.SUCCESS.getCode(),
+//                ResultStatus.SUCCESS.getMessage(),
+//                data));
     }
 
     public static String error() {

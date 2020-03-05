@@ -18,7 +18,7 @@ public interface AttendenceDao {
     Long insert(Attendence c);
 
 
-    @Select("select a.start_time time,count(state=1 or null) signedNum,count(state=0 or null) unsignedNum \n"+
+    @Select("select a.id,a.start_time time,count(state=1 or null) signedNum,count(state=0 or null) unsignedNum \n"+
             "from attendence a left JOIN sign_record b on a.id=b.attendence_id \n" +
             "where a.class_id=#{classId} group by a.id \n")
     List<Map> selAttendenceByClass(@Param("classId") int classId);
