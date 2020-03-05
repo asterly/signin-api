@@ -43,7 +43,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Class addClass(Map req) {//新增班级
         Long parent = req.get("parent") != null ? Long.parseLong((String) req.get("parent")) : 0;
-        Class c = new Class((String) req.get("className"), parent, Long.parseLong((String) req.get("userId")));
+        Class c = new Class((String) req.get("className"), parent, (Long)req.get("userId"));
         return classDao.insert(c) > 0 ? c : null;
     }
 
