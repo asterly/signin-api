@@ -36,17 +36,16 @@ public class LoginFilter implements Filter {
         res.setHeader("P3P","CP=CAO PSA OUR");
         HttpSession session = req.getSession(true);
 
-        String ipAddress = WeChatUtils.getIpAddress(req);
+        //String ipAddress = WeChatUtils.getIpAddress(req);
 
         String state = req.getParameter("state");
         destroy();
-        System.out.println(ipAddress);
+        //System.out.println(ipAddress);
         String path = req.getRequestURI();
         System.out.println("路径："+path);
-        // 登陆页面无需过滤
-        if ("wechartcallback".equalsIgnoreCase(state)|| (req.getQueryString() !=null &&req.getQueryString().indexOf("methodName=login")>-1)) {
+        // 微信回调和登陆页面无需过滤
+        if ("wechartcallback".equalsIgnoreCase(state)) {
             chain.doFilter(request, response);
-
 
         } else {
 
@@ -57,17 +56,19 @@ public class LoginFilter implements Filter {
 //                user.setId(100001L);
 //                user.setInvalid(0);
 //                user.setName("测试人员");
-//                user.setOpenid("4937BC8F45C794856AC265A85D003173");
+//                user.setOpenid("ox1ZlwfgT9W1Yx-g-1GHVXTHAJK8");
 //                user.setRoleId(100001);
 //                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
+//                chain.doFilter(request, response);
+
 
                 //获取微信code
                 res.sendRedirect(Constants.WECHART_AUTHER_URL);
 
-
+            }else{
+                chain.doFilter(request, response);
             }
 
-            chain.doFilter(request, response);
         }
 
     }

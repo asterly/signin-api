@@ -14,10 +14,6 @@ import java.util.Map;
 
 public class UserInfoUtil {
 
-    @Autowired
-    private UserDao userDao;
-
-
     /**
      * 解析前台传过来的参数
      * @param request
@@ -59,21 +55,5 @@ public class UserInfoUtil {
         return userInfo;
     }
 
-    /**
-     *  调用微信端
-     * @return
-     */
-    public  User ParseUser(){
-        WeixinOauth2Token oauth2AccessToken = new WeChatUtils().getOauth2AccessToken("");
-        String openId = oauth2AccessToken.getOpenId();
-        List<User> users = userDao.selUserByOpenID(openId);
-        return users.get(0);
-    }
-
-
-    public  User ParseUserByOpenID(String openid ){
-        List<User> users = userDao.selUserByOpenID(openid);
-        return users.get(0);
-    }
 
 }

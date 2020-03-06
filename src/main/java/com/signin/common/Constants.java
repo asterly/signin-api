@@ -30,6 +30,6 @@ public interface Constants {
     //查询微信OPENID
     String WECHART_OPENID_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="+Constants.APPID+"&secret="+Constants.APPSECRET+"&code=REQUEST_CODE&grant_type=authorization_code";
 
-    String  open_weixin_qq_com="58.247.205.110";
+    String  WECHAT_CALLBACK_FLAG="wechartcallback";
 
 }

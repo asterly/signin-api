@@ -89,8 +89,6 @@ public class WeChatUtils {
             }
         } catch (Exception e) {
             wat = null;
-            int errorCode = jsonObject.getInteger("errcode");
-            String errorMsg = jsonObject.getString("errmsg");
             e.printStackTrace();
         }
         return wat;

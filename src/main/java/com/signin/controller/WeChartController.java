@@ -66,19 +66,13 @@ public class WeChartController {
             logger.debug(" start to excute wechart callback");
         try {
 
-            Enumeration enu = request.getParameterNames();
 
-            while (enu.hasMoreElements()) {
-                String paraName = (String) enu.nextElement();
-                System.out.println(paraName + ": " + request.getParameter(paraName));
-
-            }
             request.setCharacterEncoding("utf-8");
             response.setCharacterEncoding("utf-8");
 
             // 用户同意授权后，能获取到code
             String code = request.getParameter("code");
-            String state = request.getParameter("state");
+            //String state = request.getParameter("state");
             String openId="";
 
             // 用户同意授权
@@ -87,6 +81,11 @@ public class WeChartController {
                 WeChatUtils weChatUtils = new WeChatUtils();
                 // 获取网页授权access_token
                 WeixinOauth2Token weixinOauth2Token = weChatUtils.getOauth2AccessToken(code);
+
+                if(weixinOauth2Token==null){
+                    logger.debug("获取微信接口数据失败......");
+                }
+
                 // 网页授权接口访问凭证
                 String accessToken = weixinOauth2Token.getAccessToken();
                 // 用户标识
@@ -94,18 +93,22 @@ public class WeChartController {
 
                 logger.info("回调返回的accessToken:" + accessToken + ",openId:"
                         + openId);
-                UserInfoUtil userInfoUtil=new UserInfoUtil();
+
                 User user = userInfoService.getUser(openId);
 
-                if(user==null){
+                if(user==null&&openId!=null){
+                    //用户授权之后，得到openID 但没有关联数据的数据，
+                    //或者没有数据，则需要跳转去执行关联
+                    request.getSession().setAttribute("opeinID",openId);
+                    //重定向到关联openid页面
                     response.sendRedirect("重定向的地址");
                     return;
                 }
 
                 request.getSession().setAttribute("userInfo",user);
                 // 设置要传递的参数
-                request.getSession().setAttribute("weixinOauth2Token", weixinOauth2Token);
-                request.getSession().setAttribute("state", state);
+//                request.getSession().setAttribute("weixinOauth2Token", weixinOauth2Token);
+//                request.getSession().setAttribute("state", state);
             }
 
             logger.info("微信回调结束..........");
