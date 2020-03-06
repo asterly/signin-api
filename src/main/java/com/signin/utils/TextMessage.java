@@ -3,60 +3,60 @@ package com.signin.utils;
 import java.util.Date;
 
 public class TextMessage {
-    private String msgType;
-    private String toUserName;
-    private String fromUserName;
-    private long createTime;
-    private String content;
+    private String MsgType;
+    private String ToUserName;
+    private String FromUserName;
+    private long CreateTime;
+    private String Content;
 
     public String getMsgType() {
-        return msgType;
+        return MsgType;
     }
 
     public void setMsgType(String msgType) {
-        this.msgType = msgType;
+        MsgType = msgType;
     }
 
-    public String getToUserName() {
-        return toUserName;
+    public String getMoUserName() {
+        return ToUserName;
     }
 
-    public void setToUserName(String toUserName) {
-        this.toUserName = toUserName;
+    public void setToUserName(String moUserName) {
+        ToUserName = moUserName;
     }
 
     public String getFromUserName() {
-        return fromUserName;
+        return FromUserName;
     }
 
     public void setFromUserName(String fromUserName) {
-        this.fromUserName = fromUserName;
+        FromUserName = fromUserName;
     }
 
     public long getCreateTime() {
-        return createTime;
+        return CreateTime;
     }
 
     public void setCreateTime(long createTime) {
-        this.createTime = createTime;
+        CreateTime = createTime;
     }
 
     public String getContent() {
-        return content;
+        return Content;
     }
 
     public void setContent(String content) {
-        this.content = content;
+        Content = content;
     }
 
     @Override
     public String toString() {
         return "TextMessage{" +
-                "msgType='" + msgType + '\'' +
-                ", toUserName='" + toUserName + '\'' +
-                ", fromUserName='" + fromUserName + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", content='" + content + '\'' +
+                "MsgType='" + MsgType + '\'' +
+                ", MoUserName='" + ToUserName + '\'' +
+                ", FromUserName='" + FromUserName + '\'' +
+                ", CreateTime=" + CreateTime +
+                ", Content='" + Content + '\'' +
                 '}';
     }
 }

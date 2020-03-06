@@ -2,6 +2,7 @@ package com.signin.service.impl;
 
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.signin.utils.TextMessage;
 import com.signin.utils.WechatMessageUtil;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ public class WechatServiceImpl  {
 
     public String processRequest(HttpServletRequest request) {
         Map<String, String> map = WechatMessageUtil.xmlToMap(request);
+        System.out.println(JSONObject.toJSONString(map));
         //log.info(map);
         // 发送方帐号（一个OpenID）
         String fromUserName = map.get("FromUserName");
@@ -32,7 +34,7 @@ public class WechatServiceImpl  {
             textMessage.setToUserName(fromUserName);
             textMessage.setFromUserName(toUserName);
             textMessage.setCreateTime(System.currentTimeMillis());
-            textMessage.setContent("我已经受到你发来的消息了");
+            textMessage.setContent("我已经受到你发来的消息："+map.get("Content"));
             responseMessage = WechatMessageUtil.textMessageToXml(textMessage);
         }
         //log.info(responseMessage);

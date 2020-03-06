@@ -6,7 +6,6 @@ import com.signin.model.WeixinOauth2Token;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +42,7 @@ public class WeChatUtils {
     }
 
     //
-    private String run(String url) throws IOException {
+    public String run(String url) throws IOException {
         Request request = new Request.Builder().url(url).build();
         Response response = client.newCall(request).execute();
         if (response.isSuccessful()) {

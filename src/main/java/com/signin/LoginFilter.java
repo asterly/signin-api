@@ -44,7 +44,7 @@ public class LoginFilter implements Filter {
         String path = req.getRequestURI();
         System.out.println("路径："+path);
         // 微信回调和登陆页面无需过滤
-        if ("wechartcallback".equalsIgnoreCase(state)) {
+        if ("wechartcallback".equalsIgnoreCase(state)||path.indexOf("wechart/confirm")!=-1) {
             chain.doFilter(request, response);
 
         } else {
