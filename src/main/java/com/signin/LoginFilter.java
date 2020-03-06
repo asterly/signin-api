@@ -52,18 +52,18 @@ public class LoginFilter implements Filter {
             User userInfo = (User) session.getAttribute("userInfo");
             if(userInfo==null){
                //本地调试
-                User user=new User();
-                user.setId(100001L);
-                user.setInvalid(0);
-                user.setName("测试人员");
-                user.setOpenid("ox1ZlwfgT9W1Yx-g-1GHVXTHAJK8");
-                user.setRoleId(100001);
-                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
-                chain.doFilter(request, response);
+//                User user=new User();
+//                user.setId(100001L);
+//                user.setInvalid(0);
+//                user.setName("测试人员");
+//                user.setOpenid("ox1ZlwfgT9W1Yx-g-1GHVXTHAJK8");
+//                user.setRoleId(100001);
+//                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
+//                chain.doFilter(request, response);
 
 
                 //获取微信code
-                //res.sendRedirect(Constants.WECHART_AUTHER_URL);
+                res.sendRedirect(Constants.WECHART_AUTHER_URL);
 
             }else{
                 chain.doFilter(request, response);
