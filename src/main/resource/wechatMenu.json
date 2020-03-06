@@ -19,6 +19,17 @@
         "type":"view",
         "name":"教师名下的班级",
         "url":"http://signapi2.natapp1.cc/v1/api/teacher/classes"
+      },
+      {
+        "type":"view",
+        "name":"接口测试",
+        "url":"http://signapi.natapp1.cc/#/openwx"
+      },
+      {
+        "type":"view",
+        "name":"接口测试2",
+        "url":"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxb3c22ba36aae943c&redirect_uri=http://signapi2.natapp1.cc/v1/api/wechart/callback&response_type=code&scope=snsapi_userinfo&state=wechartcallback#wechat_redirect"
       }]
   }]
 }
+
