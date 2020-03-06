@@ -44,6 +44,7 @@ public class StudentController {
      * @param req
      * @return
      */
+    @CrossOrigin
     @ApiOperation("学生填写自己的姓名注册")
     @PostMapping("/student/register")
     @ApiImplicitParam(name = "name",value = "学生姓名",dataType = "String")
@@ -78,6 +79,7 @@ public class StudentController {
      * 学生查询自己加入的所有班级
      * @return
      */
+    @CrossOrigin
     @ApiOperation("学生查询自己加入的所有班级")
     @GetMapping("/student/classes")
     public String listClasses() {
@@ -96,6 +98,7 @@ public class StudentController {
      * @param req
      * @return
      */
+    @CrossOrigin
     @ApiOperation("学生根据班级id加入班级")
     @PostMapping("/student/classes")
     @ApiImplicitParam(name = "classId",value = "班级id",dataType = "long")
@@ -126,6 +129,7 @@ public class StudentController {
      * @param req
      * @return
      */
+    @CrossOrigin
     @ApiOperation("学生参加签到")
     @PostMapping("/student/sign")
     @ApiImplicitParam(name = "signCode",value = "学生输入的签到码")
@@ -144,6 +148,7 @@ public class StudentController {
      * @param classId
      * @return
      */
+    @CrossOrigin
     @ApiOperation("根据班级id查询该学生在该班级所有的签到记录")
     @GetMapping("/student/signRecords")
     @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")

@@ -33,6 +33,7 @@ public class TeacherController {
      * @param req
      * @return
      */
+    @CrossOrigin
     @ApiOperation("老师填写自己的姓名注册")
     @PostMapping("/teacher/register")
     @ApiImplicitParam(name = "name",value = "老师姓名",dataType = "String")
@@ -52,6 +53,7 @@ public class TeacherController {
      * 查询老师名下的班级
      * @return
      */
+    @CrossOrigin
     @ApiOperation("查询老师名下的班级")
     @GetMapping("/teacher/classes")
     @ResponseBody
@@ -71,6 +73,7 @@ public class TeacherController {
      * @param req
      * @return
      */
+    @CrossOrigin
     @ApiOperation("创建班级")
     @PostMapping("/teacher/classes")
     @ResponseBody
@@ -87,6 +90,7 @@ public class TeacherController {
         }
     }
 
+    @CrossOrigin
     @ApiOperation("根据班级id查询该班级的老师姓名")
     @GetMapping("/teacher/name")
     @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")
@@ -99,6 +103,7 @@ public class TeacherController {
         }
     }
 
+    @CrossOrigin
     @ApiOperation("根据班级id查询该班级的信息")
     @GetMapping("/teacher/classInfo")
     @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")
@@ -116,6 +121,7 @@ public class TeacherController {
      * @param classId
      * @return
      */
+    @CrossOrigin
     @ApiOperation("根据班级id删除班级")
     @GetMapping("/teacher/class")
     @ApiImplicitParam(name = "classId",value = "删除班级的id",dataType = "long")
@@ -133,6 +139,7 @@ public class TeacherController {
      * @param classId 所需要传入的班级ID
      * @return
      */
+    @CrossOrigin
     @ApiOperation("根据班级id查询当前班级的所有学生信息")
     @GetMapping("/teacher/students")
     public String selStudentClass(@ApiParam(name = "classId",value = "班级id") @RequestParam("classId") Integer classId) {
@@ -152,6 +159,7 @@ public class TeacherController {
      * @param classId
      * @return
      */
+    @CrossOrigin
     @ApiOperation("老师选择班级，随机挑选一名学生起来回答问题")
     @GetMapping("/teacher/sel")
     @ApiImplicitParam(name = "classId",value = "选择班级的id")
@@ -173,6 +181,7 @@ public class TeacherController {
      *            主要有 teacherID， classID 均为数值类型
      * @return
      */
+    @CrossOrigin
     @ApiOperation("老师开启签到任务，返回6位数的签到码")
     @PostMapping("/teacher/attendences")
     @ApiImplicitParam(name = "classId",value = "发起签到班级的id",dataType = "long")
@@ -192,6 +201,7 @@ public class TeacherController {
      * @param classId
      * @return
      */
+    @CrossOrigin
     @ApiOperation("选择班级查询该班级的所有签到并显示各签到具体人数")
     @GetMapping("/teacher/attendences")
     @ApiImplicitParam(name = "classId",value = "查询班级的id",dataType = "long")
@@ -207,6 +217,7 @@ public class TeacherController {
         }
     }
 
+    @CrossOrigin
     @ApiOperation("教师根据签到码查看当前签到具体的情况")
     @GetMapping("/teacher/signRecord")
     @ApiImplicitParam(name = "signCode",value = "输入的签到码")
@@ -227,6 +238,7 @@ public class TeacherController {
      * @param attendenceId
      * @return
      */
+    @CrossOrigin
     @ApiOperation("教师选择某次签到查看该次签到具体的情况")
     @GetMapping("/teacher/signRecords")
     @ApiImplicitParam(name = "attendenceId",value = "查看签到的id",dataType = "long")
