@@ -1,10 +1,7 @@
 package com.signin.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.signin.dao.UserDao;
 import com.signin.model.User;
-import com.signin.model.WeixinOauth2Token;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;

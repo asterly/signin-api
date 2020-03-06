@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +30,9 @@ public class WeChartController {
 
     @Autowired
     UserInfoService userInfoService;
+
+    @Value("${signapi.signin-reg-url:nothing}")
+    private String redirectURL;
 
     private static Logger logger= LoggerFactory.getLogger(WeChartController.class);
 
@@ -66,7 +70,7 @@ public class WeChartController {
             logger.debug(" start to excute wechart callback");
         try {
 
-
+            System.out.println(redirectURL);
             request.setCharacterEncoding("utf-8");
             response.setCharacterEncoding("utf-8");
 

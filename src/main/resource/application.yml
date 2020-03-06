@@ -31,5 +31,8 @@ logging:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+signapi:
+ # signin-reg-url : http://localhost:8080/register
+  signin-reg-url : https://oa.tydic.com/jsp/index.jsp
 
 
