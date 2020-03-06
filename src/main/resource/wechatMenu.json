@@ -1,0 +1,24 @@
+{
+  "button": [{
+    "type": "view",
+    "name": "教师签到",
+    "url": "http://signapi.natapp1.cc/#/teacher"
+  }, {
+    "type": "view",
+    "name": "学生签到",
+    "url": "http://signapi.natapp1.cc/#/student"
+  },{
+    "name":"后台接口",
+    "sub_button":[
+      {
+        "type":"view",
+        "name":"回调触发调试",
+        "url":"http://signapi2.natapp1.cc/v1/api/wechart/callback"
+      },
+      {
+        "type":"view",
+        "name":"教师名下的班级",
+        "url":"http://signapi2.natapp1.cc/v1/api/teacher/classes"
+      }]
+  }]
+}

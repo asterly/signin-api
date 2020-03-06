@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.signin.model.User;
 import com.signin.model.WeixinOauth2Token;
 import com.signin.service.UserInfoService;
+import com.signin.service.impl.WechatServiceImpl;
 import com.signin.utils.UserInfoUtil;
 import com.signin.utils.WeChatUtils;
 import io.swagger.annotations.Api;
@@ -30,6 +31,8 @@ public class WeChartController {
 
     @Autowired
     UserInfoService userInfoService;
+
+
 
     @Value("${signapi.signin-reg-url:nothing}")
     private String redirectURL;
@@ -58,6 +61,22 @@ public class WeChartController {
         }
         out.close();
         out = null;
+    }
+
+
+    /**
+     * 接收微信客户端发来的消息
+     * @param out
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/wechat/confirm", method = RequestMethod.POST)
+    public void wechatServicePost(PrintWriter out, HttpServletRequest request, HttpServletResponse response) {
+        WechatServiceImpl wechatService=new WechatServiceImpl();
+        String responseMessage = wechatService.processRequest(request);
+        //回写用户消息
+        out.print(responseMessage);
+        out.flush();
     }
 
     /**
