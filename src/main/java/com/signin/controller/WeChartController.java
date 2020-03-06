@@ -3,6 +3,7 @@ package com.signin.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.signin.common.ResultData;
+import com.signin.common.Constants;
 import com.signin.model.User;
 import com.signin.model.WeixinOauth2Token;
 import com.signin.service.UserInfoService;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +47,7 @@ public class WeChartController {
     /**
      * 确认请求来自微信服务器
      */
+    @CrossOrigin
     @RequestMapping(value="/wechart/confirm",method= RequestMethod.GET)  // weixin/weixinOpe
     public void confirmMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 微信加密签名
@@ -71,6 +74,7 @@ public class WeChartController {
      * @param request
      * @param response
      */
+    @CrossOrigin
     @RequestMapping(value = "/wechart/confirm", method = RequestMethod.POST)
     public void wechatServicePost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         WechatServiceImpl wechatService=new WechatServiceImpl();
@@ -92,6 +96,7 @@ public class WeChartController {
      * @param request
      * @param response
      */
+    @CrossOrigin
     @RequestMapping(value="/wechart/callback",method= RequestMethod.GET)
     public void wechartCallback(HttpServletRequest request, HttpServletResponse response){
             logger.debug(" start to excute wechart callback");
@@ -115,6 +120,7 @@ public class WeChartController {
 
                 if(weixinOauth2Token==null){
                     logger.debug("获取微信接口数据失败......");
+                    return;
                 }
 
                 // 网页授权接口访问凭证
@@ -132,7 +138,7 @@ public class WeChartController {
                     //或者没有数据，则需要跳转去执行关联
                     request.getSession().setAttribute("opeinID",openId);
                     //重定向到关联openid页面
-                    response.sendRedirect("重定向的地址");
+                    response.sendRedirect(redirectURL);
                     return;
                 }
 
@@ -148,12 +154,43 @@ public class WeChartController {
         }
     }
 
+    @CrossOrigin
+    @RequestMapping(value="/wechart/user",method= RequestMethod.GET)
+    public String pareseByOpenid(HttpServletRequest request, HttpServletResponse response){
+        String opeinID = request.getSession().getAttribute("opeinID").toString();
+
+        String redirectUrl = request.getSession().getAttribute("redirectUrl").toString();
+
+        User user = userInfoService.getUser(opeinID);
+        request.getSession().setAttribute("userInfo",user);
+
+        return "redirect:"+redirectUrl;
+
+
+    }
+
+    @CrossOrigin
+    @RequestMapping(value="/wechart/controller")
+    public String wechatController(HttpServletRequest request, HttpServletResponse response){
+
+        //获取微信code
+        try {
+            response.sendRedirect(Constants.WECHART_AUTHER_URL);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+
+    }
+
+
 
     /**
      * 微信回调
      * @param request
      * @param response
      */
+    @CrossOrigin
     @RequestMapping(value="/wechart/authtoken",method= RequestMethod.GET)
     public String wechartAuthToken(HttpServletRequest request, HttpServletResponse response){
         logger.debug(" start to excute wechart callback");

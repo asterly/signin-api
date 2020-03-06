@@ -44,13 +44,15 @@ public class LoginFilter implements Filter {
         String path = req.getRequestURI();
         System.out.println("路径："+path);
         // 微信回调和登陆页面无需过滤
-        if ("wechartcallback".equalsIgnoreCase(state)||path.indexOf("wechart/confirm")!=-1) {
+
+        if ("wechartcallback".equalsIgnoreCase(state)) {
             chain.doFilter(request, response);
 
         } else {
 
             User userInfo = (User) session.getAttribute("userInfo");
-            if(userInfo==null){
+            String opeinID =(String) session.getAttribute("opeinID");
+            if(userInfo==null&&opeinID==null){
                //本地调试
 //                User user=new User();
 //                user.setId(100001L);
@@ -60,11 +62,12 @@ public class LoginFilter implements Filter {
 //                user.setRoleId(100001);
 //                ((HttpServletRequest) request).getSession().setAttribute("userInfo", user);
 //                chain.doFilter(request, response);
-
-
+                request.getRequestDispatcher("/wechart/controller").forward(request,response);
                 //获取微信code
-                res.sendRedirect(Constants.WECHART_AUTHER_URL);
+                //res.sendRedirect(Constants.WECHART_AUTHER_URL);
 
+            }else if(opeinID!=null&&!"".equalsIgnoreCase(opeinID)){
+                chain.doFilter(request, response);
             }else{
                 chain.doFilter(request, response);
             }
